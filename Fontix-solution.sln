@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fontix", "Fontix\Fontix.csproj", "{CAB7F2FC-EC8E-49B8-91C1-A62A4D4D0BF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fontix-data", "fontix-data\fontix-data.csproj", "{22C70959-0B67-4ECA-A215-F34196C83029}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{CAB7F2FC-EC8E-49B8-91C1-A62A4D4D0BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAB7F2FC-EC8E-49B8-91C1-A62A4D4D0BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAB7F2FC-EC8E-49B8-91C1-A62A4D4D0BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C70959-0B67-4ECA-A215-F34196C83029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C70959-0B67-4ECA-A215-F34196C83029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C70959-0B67-4ECA-A215-F34196C83029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C70959-0B67-4ECA-A215-F34196C83029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
