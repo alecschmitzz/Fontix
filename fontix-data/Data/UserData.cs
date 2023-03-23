@@ -18,7 +18,7 @@ public class UserData : IUserData
     public async Task<User> GetUser(int id)
     {
         var results = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_fontix.sp_Users_GetUser",
-            new { UserId = id });
+            new { Iuser_id = id });
 
         return results.FirstOrDefault();
     }
@@ -26,17 +26,30 @@ public class UserData : IUserData
     public Task InsertUser(User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_InsertUser",
         parameters: new
         {
-            Iname_first = user.name_first, Iname_last = user.name_last, Iuserpwd = user.userpwd, Iemail = user.email
+            Iname_first = user.name_first,
+            Iname_last = user.name_last,
+            Iuserpwd = user.userpwd,
+            Iemail = user.email
         });
 
 
     public Task UpdateUser(User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_UpdateUser",
         new
         {
-            Iname_first = user.name_first, Iname_last = user.name_last, Iuserpwd = user.userpwd, Iemail = user.email,
-            UserId = user.id
+            Iname_first = user.name_first,
+            Iname_last = user.name_last,
+            Iemail = user.email,
+            Iuser_id = user.id
+        });
+
+
+    public Task UpdateUserPwd(User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_UpdateUserPwd",
+        new
+        {
+            Iuserpwd = user.userpwd,
+            Iuser_id = user.id
         });
 
     public Task DeleteUser(int id) =>
-        _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_DeleteUser", new { Iuserid = id });
+        _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_DeleteUser", new { Iuser_id = id });
 }

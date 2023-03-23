@@ -9,4 +9,5 @@ public interface IUserData
     Task<IEnumerable<User>> GetUsers();
     Task InsertUser(User user);
     Task UpdateUser(User user);
+    Task UpdateUserPwd(User user);
 }
