@@ -4,7 +4,9 @@ namespace fontix_logic.Collection;
 
 public class EventController
 {
-    public async Task<List<LogicModels.Event>> GetAllEvents(IEventData data)
+    private readonly IEventData data;
+    
+    public async Task<List<LogicModels.Event>> GetAllEvents()
     {
         List<fontix_data.Entities.Event> entitylist = new List<fontix_data.Entities.Event>();
 
@@ -20,12 +22,12 @@ public class EventController
         return events;
     }
 
-    public async Task<LogicModels.Event> GetEvent(IEventData data, int id)
+    public async Task<LogicModels.Event> GetEvent(int id)
     {
         return new LogicModels.Event(await data.GetEvent(id));
     }
 
-    public async Task InsertEvent(IEventData data, LogicModels.Event myEvent)
+    public async Task InsertEvent(LogicModels.Event myEvent)
     {
         fontix_data.Entities.Event insertEvent = new fontix_data.Entities.Event()
         {
@@ -37,7 +39,7 @@ public class EventController
         await data.InsertEvent(insertEvent);
     }
 
-    public async Task UpdateEvent(IEventData data, LogicModels.Event myEvent)
+    public async Task UpdateEvent(LogicModels.Event myEvent)
     {
         fontix_data.Entities.Event updateEvent = new fontix_data.Entities.Event()
         {
@@ -50,7 +52,7 @@ public class EventController
         await data.UpdateEvent(updateEvent);
     }
 
-    public async Task DeleteEvent(IEventData data, int id)
+    public async Task DeleteEvent(int id)
     {
         await data.DeleteEvent(id);
     }

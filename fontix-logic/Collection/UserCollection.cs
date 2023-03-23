@@ -4,7 +4,9 @@ namespace fontix_logic.Collection;
 
 public class UserController
 {
-    public async Task<List<LogicModels.User>> GetAllUsers(IUserData data)
+    private readonly IUserData data;
+
+    public async Task<List<LogicModels.User>> GetAllUsers()
     {
         List<fontix_data.Entities.User> entitylist = new List<fontix_data.Entities.User>();
 
@@ -20,7 +22,7 @@ public class UserController
         return users;
     }
 
-    public async Task<LogicModels.User> GetUser(IUserData data, int id)
+    public async Task<LogicModels.User> GetUser(int id)
     {
         return new LogicModels.User(await data.GetUser(id));
     }
@@ -38,7 +40,7 @@ public class UserController
         await data.InsertUser(insertUser);
     }
 
-    public async Task UpdateUser(IUserData data, LogicModels.User user)
+    public async Task UpdateUser(LogicModels.User user)
     {
         fontix_data.Entities.User updateUser = new fontix_data.Entities.User()
         {
@@ -51,7 +53,7 @@ public class UserController
         await data.UpdateUser(updateUser);
     }
 
-    public async Task UpdatePassword(IUserData data, LogicModels.User user)
+    public async Task UpdatePassword(LogicModels.User user)
     {
         fontix_data.Entities.User updateUser = new fontix_data.Entities.User()
         {
@@ -62,7 +64,7 @@ public class UserController
         await data.UpdateUserPwd(updateUser);
     }
 
-    public async Task DeleteUser(IUserData data, int id)
+    public async Task DeleteUser(int id)
     {
         await data.DeleteUser(id);
     }

@@ -4,7 +4,9 @@ namespace fontix_logic.Collection;
 
 public class OrganiserController
 {
-    public async Task<List<LogicModels.Organiser>> GetAllOrganisers(IOrganiserData data)
+    private readonly IOrganiserData data;
+
+    public async Task<List<LogicModels.Organiser>> GetAllOrganisers()
     {
         List<fontix_data.Entities.Organiser> entitylist = new List<fontix_data.Entities.Organiser>();
 
@@ -20,7 +22,7 @@ public class OrganiserController
         return organisers;
     }
 
-    public async Task<LogicModels.Organiser> GetOrganiser(IOrganiserData data, int id)
+    public async Task<LogicModels.Organiser> GetOrganiser(int id)
     {
         return new LogicModels.Organiser(await data.GetOrganiser(id));
     }
@@ -35,7 +37,7 @@ public class OrganiserController
         await data.InsertOrganiser(insertOrganiser);
     }
 
-    public async Task UpdateOrganiser(IOrganiserData data, LogicModels.Organiser myOrganiser)
+    public async Task UpdateOrganiser(LogicModels.Organiser myOrganiser)
     {
         fontix_data.Entities.Organiser updateOrganiser = new fontix_data.Entities.Organiser()
         {
@@ -46,7 +48,7 @@ public class OrganiserController
         await data.UpdateOrganiser(updateOrganiser);
     }
 
-    public async Task DeleteOrganiser(IOrganiserData data, int id)
+    public async Task DeleteOrganiser(int id)
     {
         await data.DeleteOrganiser(id);
     }

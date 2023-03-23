@@ -5,9 +5,6 @@ namespace fontix_logic.LogicModels;
 
 public class User
 {
-    private readonly IUserData _userdata;
-
-
     public int? id { get; set; }
     public string name_first { get; set; }
     public string name_last { get; set; }
@@ -61,12 +58,12 @@ public class User
     public async Task UpdateUser()
     {
         UserController userController = new();
-        await userController.UpdateUser(_userdata, this);
+        await userController.UpdateUser(this);
     }
 
     public async Task UpdatePassword()
     {
         UserController userController = new();
-        await userController.UpdatePassword(_userdata, this);
+        await userController.UpdatePassword(this);
     }
 }

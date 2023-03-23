@@ -4,7 +4,9 @@ namespace fontix_logic.Collection;
 
 public class TicketController
 {
-    public async Task<List<LogicModels.Ticket>> GetAllTickets(ITicketData data)
+    private readonly ITicketData data;
+
+    public async Task<List<LogicModels.Ticket>> GetAllTickets()
     {
         List<fontix_data.Entities.Ticket> entitylist = new List<fontix_data.Entities.Ticket>();
 
@@ -20,12 +22,12 @@ public class TicketController
         return tickets;
     }
 
-    public async Task<LogicModels.Ticket> GetTicket(ITicketData data, int id)
+    public async Task<LogicModels.Ticket> GetTicket(int id)
     {
         return new LogicModels.Ticket(await data.GetTicket(id));
     }
 
-    public async Task InsertTicket(ITicketData data, LogicModels.Ticket ticket)
+    public async Task InsertTicket(LogicModels.Ticket ticket)
     {
         fontix_data.Entities.Ticket insertTicket = new fontix_data.Entities.Ticket()
         {
@@ -41,7 +43,7 @@ public class TicketController
         await data.InsertTicket(insertTicket);
     }
 
-    public async Task UpdateTicket(ITicketData data, LogicModels.Ticket ticket)
+    public async Task UpdateTicket(LogicModels.Ticket ticket)
     {
         fontix_data.Entities.Ticket updateTicket = new fontix_data.Entities.Ticket()
         {
@@ -58,7 +60,7 @@ public class TicketController
         await data.UpdateTicket(updateTicket);
     }
 
-    public async Task DeleteTicket(ITicketData data, int id)
+    public async Task DeleteTicket(int id)
     {
         await data.DeleteTicket(id);
     }
