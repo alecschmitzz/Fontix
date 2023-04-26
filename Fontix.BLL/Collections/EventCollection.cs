@@ -24,9 +24,9 @@ public class EventCollection : IEventCollection
         return await _data.GetEvent(id);
     }
     
-    public async Task<Event> GetEventWithReference(int id)
+    public async Task<Event> GetEventWithTickets(int id)
     {
-        return await _data.GetEventWithReference(id);
+        return await _data.GetEventWithTickets(id);
     }
 
     public async Task InsertEvent(Event myEvent)

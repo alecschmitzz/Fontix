@@ -8,7 +8,7 @@ public static class ApiConfig
     {
         app.MapGet(pattern: "/Event", GetEvents);
         app.MapGet(pattern: "/Event/{id}", GetEvent);
-        app.MapGet(pattern: "/Event/{id}/ref", GetEventWithReference);
+        app.MapGet(pattern: "/Event/{id}/ref", GetEventWithTickets);
         app.MapPost(pattern: "/Event", InsertEvent);
         app.MapPut(pattern: "/Event", UpdateEvent);
         app.MapDelete(pattern: "/Event/{id}", DeleteEvent);
@@ -51,9 +51,9 @@ public static class ApiConfig
         return results;
     }
     
-    private static async Task<IResult> GetEventWithReference(IEventDal data, int id)
+    private static async Task<IResult> GetEventWithTickets(IEventDal data, int id)
     {
-        var results = Results.Ok(await data.GetEventWithReference(id));
+        var results = Results.Ok(await data.GetEventWithTickets(id));
         return results;
     }
 

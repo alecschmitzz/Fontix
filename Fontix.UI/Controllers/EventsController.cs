@@ -5,20 +5,21 @@ using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
 
-public class EventController : Controller
+public class EventsController : Controller
 {
     private readonly IEventCollection _eventCollection;
     private readonly IMapper _mapper;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public EventController(IEventCollection eventCollection, IMapper mapper, ISessionAccess sessionAccess)
+    public EventsController(IEventCollection eventCollection, IMapper mapper, ISessionAccess sessionAccess)
     {
         _eventCollection = eventCollection;
         _mapper = mapper;
         _sessionAccess = sessionAccess;
     }
 
+    //CREATE EVENT
     [HttpPost]
     public async Task<IActionResult> Create(Models.Event uiEvent)
     {
@@ -53,7 +54,7 @@ public class EventController : Controller
         return RedirectToAction("ManageEvents");
     }
 
-    
+    //READ EVENTS
     public async Task<IActionResult> ManageEvents()
     {
         var events = await _eventCollection.GetAllEvents();
@@ -62,7 +63,7 @@ public class EventController : Controller
     }
     
 
-    //DETAILS
+    //READ EVENT
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -70,7 +71,7 @@ public class EventController : Controller
             return NotFound();
         }
 
-        var logicEvent = await _eventCollection.GetEvent(id.Value);
+        var logicEvent = await _eventCollection.GetEventWithTickets(id.Value);
 
         if (logicEvent == null)
         {
@@ -82,7 +83,7 @@ public class EventController : Controller
         return View(uiEvent);
     }
 
-    //EDIT event
+    //UPDATE event
     [HttpPost]
     public async Task<IActionResult> Edit(Fontix.UI.Models.Event uiEvent)
     {
@@ -106,6 +107,7 @@ public class EventController : Controller
     }
     
 
+    //DELETE event
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {

@@ -5,56 +5,21 @@ using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
 
-public class TicketController : Controller
+public class TicketsController : Controller
 {
     private readonly ITicketCollection _ticketCollection;
     private readonly IMapper _mapper;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public TicketController(ITicketCollection ticketCollection, IMapper mapper, ISessionAccess sessionAccess)
+    public TicketsController(ITicketCollection ticketCollection, IMapper mapper, ISessionAccess sessionAccess)
     {
         _ticketCollection = ticketCollection;
         _mapper = mapper;
         _sessionAccess = sessionAccess;
     }
 
-    //GET TICKETS
-    public async Task<IActionResult> ManageTickets(int eventId)
-    {
-        var tickets = await _ticketCollection.GetAllTickets();
-
-        var myObj = new
-        {
-            tickets,
-            eventId
-        };
-
-        return View(myObj);
-    }
-    
-    //GET ticket
-    public async Task<IActionResult> Details(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var logicTicket = await _ticketCollection.GetTicket(id.Value);
-
-        if (logicTicket == null)
-        {
-            return NotFound();
-        }
-
-        var uiTicket = _mapper.Map<Fontix.UI.Models.Ticket>(logicTicket);
-
-        return View(uiTicket);
-    }
-
-    
-    //POST TICKET
+    //CREATE TICKET
     [HttpPost]
     public async Task<IActionResult> Create(Models.Ticket uiTicket)
     {
@@ -87,7 +52,41 @@ public class TicketController : Controller
         return RedirectToAction("ManageTickets");
     }
 
-    //EDIT ticket
+    //READ TICKETS
+    public async Task<IActionResult> ManageTickets(int eventId)
+    {
+        var tickets = await _ticketCollection.GetAllTickets();
+
+        var myObj = new
+        {
+            tickets,
+            eventId
+        };
+
+        return View(myObj);
+    }
+
+    //READ TICKET
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var logicTicket = await _ticketCollection.GetTicket(id.Value);
+
+        if (logicTicket == null)
+        {
+            return NotFound();
+        }
+
+        var uiTicket = _mapper.Map<Fontix.UI.Models.Ticket>(logicTicket);
+
+        return View(uiTicket);
+    }
+
+    //UPDATE TICKET
     [HttpPost]
     public async Task<IActionResult> Edit(Fontix.UI.Models.Ticket uiTicket)
     {
@@ -107,7 +106,7 @@ public class TicketController : Controller
         }
 
 
-        return RedirectToAction("ManageTickets");
+        return RedirectToAction("Details", "Events", new { id = uiTicket.EventId });
     }
 
     //DELETE ticket
@@ -128,7 +127,6 @@ public class TicketController : Controller
         {
             Console.WriteLine(e);
         }
-
-        return RedirectToAction("ManageTickets");
+        return RedirectToAction("Details", "Events", new { id = 1 });//TODO remove hardcode
     }
 }

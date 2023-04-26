@@ -5,6 +5,7 @@ public class Ticket
     public int id { get; set; }
     public int alias_ticket_id { get; set; }
     public string name { get; set; }
+    public string alias_ticket_name { get; set; }
     public int event_id { get; set; }
     public decimal price { get; set; }
     public DateTime datetime_start { get; set; }

@@ -37,12 +37,12 @@ public class EventDal : IEventDal
         return _mapper.Map<Models.Event>(myEvent);
     }
     
-    public async Task<Models.Event> GetEventWithReference(int id)
+    public async Task<Models.Event> GetEventWithTickets(int id)
     {
         var lookup = new Dictionary<int, Event>();
     
         var results = await _db.LoadDataWithJoin<Event, Ticket, Event, dynamic>(
-            "alecit_fontix.sp_Events_GetEventWithReference",
+            "alecit_fontix.sp_Events_GetEventWithTickets",
             new { Ievent_id = id },
             (myEvent, ticket) =>
             {
@@ -56,6 +56,7 @@ public class EventDal : IEventDal
     
                 // Set the tickets ID using the alias
                 ticket.id = ticket.alias_ticket_id;
+                ticket.name = ticket.alias_ticket_name;
     
                 // Add the ticket to the event's list of tickets if it doesn't already exist
                 if (e.Tickets.All(r => r.id != ticket.id))

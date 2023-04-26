@@ -64,7 +64,7 @@ public class TicketDal : ITicketDal
         new
         {
             Iname = ticket.Name,
-            Ievent_id = ticket.EventId,
+            Iprice = ticket.Price,
             Idatetime_start = ticket.DatetimeStart,
             Idatetime_end = ticket.DatetimeEnd,
             Idatetime_view = ticket.DatetimeView,
