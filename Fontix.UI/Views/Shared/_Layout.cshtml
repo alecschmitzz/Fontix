@@ -1,49 +1,172 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Fontix</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/Fontix.styles.css" asp-append-version="true"/>
+    <title>@ViewData["Title"] - Fontix.UI</title>
+
+    <!-- Font Awesome -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet"/>
+    <!-- MDB -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+        rel="stylesheet"/>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
+
+
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Fontix</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+<div id="page-container">
+    <div id="content-wrap">
+        <header>
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+                <!-- Container wrapper -->
+                <div class="container">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand me-4 my-3" href="/">
+                        <img
+                            src="~/assets/fontix-logo-transparent.png"
+                            height="30"
+                            alt="Fontix Logo"
+                            loading="lazy"
+                            style="margin-top: -1px;"/>
+                    </a>
+                    <!-- Toggle button -->
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarButtonsExample"
+                        aria-controls="navbarButtonsExample"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2023 - Fontix - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <!-- Collapsible wrapper -->
+                    <div class="collapse navbar-collapse" id="navbarButtonsExample">
+                        <!-- Left links -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Event" asp-action="ManageEvents">Events</a>
+                            </li>
+                        </ul>
+                        <!-- Left links -->
+
+                        <div class="d-flex align-items-center">
+                            <button type="button" class="btn btn-link text-danger me-3" asp-area="" asp-controller="User" asp-action="Login">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Collapsible wrapper -->
+                </div>
+                <!-- Container wrapper -->
+            </nav>
+            <!-- Navbar -->
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+
+        <!-- Footer -->
+        <footer class="text-center text-lg-start bg-light text-muted">
+
+            <!-- Section: Links  -->
+            <section class="pt-3">
+                <div class="container text-center text-md-start mt-4">
+                    <!-- Grid row -->
+                    <div class="row mt-3">
+                        <!-- Grid column -->
+                        <div class="col-12 col-md-3 mx-auto mb-4">
+                            <!-- Content -->
+                            <h6 class="text-uppercase fw-bold mb-4 w-100">
+                                <img
+                                    src="~/assets/fontix-logo-transparent.png"
+                                    style="max-width: 100%; object-fit: contain;"
+                                    height="50"
+                                    alt="Fontix Logo"
+                                    loading="lazy"/>
+                            </h6>
+                            <p>
+                                Reserve your space, find your focus with Fontix.
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-12 col-md-3 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold mb-2">Contact</h6>
+                            <table class="table-sm text-start mx-auto mx-md-0">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <i class="fas fa-home me-3"></i>
+                                    </th>
+                                    <td>
+                                        <a class="text-muted" href="https://goo.gl/maps/6nLkCpWuELoP9k9LA" target="_blank">
+                                            Rachelsmolen 1 R10,<br/>
+                                            5612 MA Eindhoven
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <i class="fas fa-envelope me-3"></i>
+                                    </th>
+                                    <td>
+                                        <a class="text-muted" href="mailto:info@fontix.nl" target="_blank">info@fontix.nl</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <i class="fas fa-phone me-3"></i>
+                                    </th>
+                                    <td>
+                                        <a class="text-muted" href="tel:+31636552527" target="_blank">
+                                            +31 6 36 55 25 27
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- Links -->
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+            </section>
+            <!-- Section: Links  -->
+
+            <!-- Copyright -->
+            <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+                © @DateTime.Now.Year Copyright:
+                <a class="text-reset fw-bold" href="https://fontix.nl/">fontix.nl</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
     </div>
-</footer>
+</div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/footer.js"></script>
+<!-- MDB -->
+<script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+@* <script src="~/js/site.js" asp-append-version="true"></script> *@
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

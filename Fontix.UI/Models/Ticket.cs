@@ -1,4 +1,4 @@
-namespace Fontix.UI.entities;
+namespace Fontix.UI.Models;
 
 public class Ticket
 {

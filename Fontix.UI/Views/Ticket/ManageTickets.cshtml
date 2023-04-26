@@ -1,0 +1,165 @@
+@* $1$ @model IEnumerable<Fontix.UI.Models.Ticket> #1# *@
+@* *@
+@* @model dynamic *@
+@* *@
+@* @{ *@
+@*     ViewData["Title"] = "My Tickets"; *@
+@*     var tickets = Model.tickets; *@
+@* } *@
+@* *@
+@* <div class="d-flex"> *@
+@*     <h1>My Tickets</h1> *@
+@*     <div class="align-self-center ms-auto justify-self-end"> *@
+@* *@
+@*         <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#addModal"> *@
+@*             <span> *@
+@*                 <strong>Add new</strong> *@
+@*             </span> *@
+@*             &nbsp; *@
+@*             <i class="fas fa-plus"></i> *@
+@*         </button> *@
+@* *@
+@*         <!-- ADD MODAL --> *@
+@*         @using (Html.BeginForm("Create", "Ticket", new { EventId = Model.eventId }, FormMethod.Post)) *@
+@*         { *@
+@*             @Html.AntiForgeryToken() *@
+@*             <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"> *@
+@*                 <div class="modal-dialog"> *@
+@*                     <div class="modal-content"> *@
+@*                         <div class="modal-header"> *@
+@*                             <h5 class="modal-title">Add Ticket</h5> *@
+@*                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button> *@
+@*                         </div> *@
+@* *@
+@*                         <div class="modal-body text-start"> *@
+@*                             <!-- OrganiserId input --> *@
+@* *@
+@*                             <!-- Name input --> *@
+@*                             <div class="form-outline mb-4"> *@
+@*                                 <input type="text" name="Name" class="form-control"/> *@
+@*                                 <label class="form-label">Name</label> *@
+@*                             </div> *@
+@* *@
+@*                             <!-- Description input --> *@
+@*                             <div class="form-outline mb-4"> *@
+@*                                 <input type="text" name="Description" class="form-control"/> *@
+@*                                 <label class="form-label">Description</label> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                         <div class="modal-footer"> *@
+@*                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button> *@
+@*                             <button type="submit" class="btn btn-primary">Add</button> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         } *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* <table class="table"> *@
+@*     <thead> *@
+@*     <tr> *@
+@*         <th> *@
+@*             @Html.DisplayNameFor(model => Model.tickets.Name) *@
+@*         </th> *@
+@*         <th> *@
+@*             @Html.DisplayNameFor(model => Model.tickets.Description) *@
+@*         </th> *@
+@*         <th class="text-end pe-5"> *@
+@*             Acties *@
+@*         </th> *@
+@*     </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*     @foreach (var item in Model.tickets) *@
+@*     { *@
+@*         <tr> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Name) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Description) *@
+@*             </td> *@
+@*             <td class="text-end"> *@
+@*                 <div class="d-flex align-items-center justify-content-end"> *@
+@*                     @if (1 == 1) *@
+@*                     { *@
+@*                         <button type="button" class="btn btn-outline-primary px-2 py-1 ms-2" data-mdb-toggle="modal" data-mdb-target="#editModal-@item.Id"> *@
+@*                             <i class="fas fa-pencil"></i> *@
+@*                         </button> *@
+@*                         <button type="button" class="btn btn-outline-primary px-2 py-1 ms-1" data-mdb-toggle="modal" data-mdb-target="#editModal-@item.Id"> *@
+@*                             <i class="fas fa-ticket"></i> *@
+@*                         </button> *@
+@* *@
+@*                         <button type="button" class="btn btn-outline-danger px-2 py-1 ms-1" data-mdb-toggle="modal" data-mdb-target="#confirmDelectionModal-@item.Id"> *@
+@*                             <i class="fas fa-trash-can"></i> *@
+@*                         </button> *@
+@* *@
+@* *@
+@*                         <!-- EDIT MODAL --> *@
+@*                         @using (Html.BeginForm("Edit", "Ticket", new { id = item.Id }, FormMethod.Post)) *@
+@*                         { *@
+@*                             @Html.AntiForgeryToken() *@
+@*                             <div class="modal fade" id="editModal-@item.Id" tabindex="-1" aria-hidden="true"> *@
+@*                                 <div class="modal-dialog"> *@
+@*                                     <div class="modal-content"> *@
+@*                                         <div class="modal-header"> *@
+@*                                             <h5 class="modal-title">Make changes</h5> *@
+@*                                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button> *@
+@*                                         </div> *@
+@* *@
+@*                                         <div class="modal-body text-start"> *@
+@*                                             <!-- Name input --> *@
+@*                                             <div class="form-outline mb-4"> *@
+@*                                                 <input type="text" name="Name" class="form-control" value="@item.Name"/> *@
+@*                                                 <label class="form-label">Name</label> *@
+@*                                             </div> *@
+@* *@
+@*                                             <!-- Description input --> *@
+@*                                             <div class="form-outline mb-4"> *@
+@*                                                 <input type="text" name="Description" class="form-control" value="@item.Description"/> *@
+@*                                                 <label class="form-label">Description</label> *@
+@*                                             </div> *@
+@*                                         </div> *@
+@*                                         <div class="modal-footer"> *@
+@*                                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button> *@
+@*                                             <button type="submit" class="btn btn-primary">Update</button> *@
+@*                                         </div> *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         } *@
+@* *@
+@*                         /* DELETE MODAL */ *@
+@*                         @using (Html.BeginForm("Delete", "Ticket", new { id = item.Id }, FormMethod.Post)) *@
+@*                         { *@
+@*                             @Html.AntiForgeryToken() *@
+@* *@
+@*                             <!-- Modal --> *@
+@*                             <div class="modal fade" id="confirmDelectionModal-@item.Id" tabindex="-1" aria-labelledby="confirmDelectionModalLabel" aria-hidden="true"> *@
+@*                                 <div class="modal-dialog"> *@
+@*                                     <div class="modal-content"> *@
+@*                                         <div class="modal-header"> *@
+@*                                             <h5 class="modal-title" id="confirmDelectionModalLabel">Confirm deletion</h5> *@
+@*                                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button> *@
+@*                                         </div> *@
+@*                                         <div class="modal-body text-start"> *@
+@*                                             Are you sure you want to delete ticket <b>@item.Id</b> *@
+@*                                         </div> *@
+@*                                         <div class="modal-footer"> *@
+@*                                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button> *@
+@*                                             <button type="submit" class="btn btn-danger">Delete</button> *@
+@*                                         </div> *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         } *@
+@*                     } *@
+@*                 </div> *@
+@*             </td> *@
+@*         </tr> *@
+@*     } *@
+@*     </tbody> *@
+@* *@
+@* </table> *@

@@ -1,14 +1,24 @@
-using Fontix.UI.Context;
-using Fontix.UI.Contracts;
-using Fontix.UI.Repository;
+using Fontix.BLL;
+using Fontix.DAL;
+using Fontix.UI.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<DapperContext>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(30); });
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ISessionAccess>(service => new SessionAccess(new HttpContextAccessor()));
+
+// builder.Services.AddSingleton<IConfiguration>();
+builder.Services.AddDALServices();
+builder.Services.AddBLLServices();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 
 var app = builder.Build();
 

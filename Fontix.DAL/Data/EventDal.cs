@@ -86,7 +86,6 @@ public class EventDal : IEventDal
         storedprocedure: "alecit_fontix.sp_Events_UpdateEvent",
         new
         {
-            Iorganiser_id = myEvent.OrganiserId,
             Iname = myEvent.Name,
             Idescription = myEvent.Description,
             Ievent_id = myEvent.Id
