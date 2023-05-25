@@ -8,52 +8,42 @@ public class AutoMapperDALProfile : Profile
     public AutoMapperDALProfile()
     {
         /* EVENTS */
-        CreateMap<Event, Models.Event>()
-            .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
-            .ForMember(dest => dest.OrganiserId, act => act.MapFrom(src => src.organiser_id))
-            .ForMember(dest => dest.Name, act => act.MapFrom(src => src.name))
-            .ForMember(dest => dest.Description, act => act.MapFrom(src => src.description))
-            .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
+        // CreateMap<Event, Models.Event>()
+        //     .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
+        //     .ForMember(dest => dest.OrganiserId, act => act.MapFrom(src => src.organiser_id))
+        //     .ForMember(dest => dest.Name, act => act.MapFrom(src => src.name))
+        //     .ForMember(dest => dest.Description, act => act.MapFrom(src => src.description))
+        //     .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
 
-        CreateMap<Models.Event, Event>()
-            .ForMember(dest => dest.id, act => act.MapFrom(src => src.Id))
-            .ForMember(dest => dest.organiser_id, act => act.MapFrom(src => src.OrganiserId))
-            .ForMember(dest => dest.name, act => act.MapFrom(src => src.Name))
-            .ForMember(dest => dest.description, act => act.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
+        // CreateMap<Event, Models.Event>()
+        //     .ConstructUsing(src => src.ConvertToModel());
+        //
+        // CreateMap<Fontix.Models.Event, Event>()
+        //     .ConstructUsing(src => new Event(src.Id, src.OrganiserId, src.Name, src.Description, null));
+
+        // CreateMap<Models.Event, Event>()
+        //     .ForMember(dest => dest.id, act => act.MapFrom(src => src.Id))
+        //     .ForMember(dest => dest.organiser_id, act => act.MapFrom(src => src.OrganiserId))
+        //     .ForMember(dest => dest.name, act => act.MapFrom(src => src.Name))
+        //     .ForMember(dest => dest.description, act => act.MapFrom(src => src.Description))
+        //     .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
 
         /* ORGANISERS */
-        CreateMap<Organiser, Models.Organiser>()
-            .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
-            .ForMember(dest => dest.Name, act => act.MapFrom(src => src.name))
-            .ForMember(dest => dest.Events, act => act.MapFrom(src => src.Events));
-
-        CreateMap<Models.Organiser, Organiser>()
-            .ForMember(dest => dest.id, act => act.MapFrom(src => src.Id))
-            .ForMember(dest => dest.name, act => act.MapFrom(src => src.Name))
-            .ForMember(dest => dest.Events, act => act.MapFrom(src => src.Events));
+        // CreateMap<Organiser, Models.Organiser>()
+        //     .ConstructUsing(src => src.ConvertToModel());
+        //
+        // CreateMap<Fontix.Models.Organiser, Organiser>()
+        //     .ConstructUsing(src => new Organiser(src.Id, src.Name, null));
 
 
         /*TICKETS*/
-        CreateMap<Ticket, Models.Ticket>()
-            .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
-            .ForMember(dest => dest.Name, act => act.MapFrom(src => src.name))
-            .ForMember(dest => dest.EventId, act => act.MapFrom(src => src.event_id))
-            .ForMember(dest => dest.Price, act => act.MapFrom(src => src.price))
-            .ForMember(dest => dest.DatetimeStart, act => act.MapFrom(src => src.datetime_start))
-            .ForMember(dest => dest.DatetimeEnd, act => act.MapFrom(src => src.datetime_end))
-            .ForMember(dest => dest.DatetimeView, act => act.MapFrom(src => src.datetime_view))
-            .ForMember(dest => dest.Amount, act => act.MapFrom(src => src.amount));
-
-        CreateMap<Models.Ticket, Ticket>()
-            .ForMember(dest => dest.id, act => act.MapFrom(src => src.Id))
-            .ForMember(dest => dest.name, act => act.MapFrom(src => src.Name))
-            .ForMember(dest => dest.event_id, act => act.MapFrom(src => src.EventId))
-            .ForMember(dest => dest.price, act => act.MapFrom(src => src.Price))
-            .ForMember(dest => dest.datetime_start, act => act.MapFrom(src => src.DatetimeStart))
-            .ForMember(dest => dest.datetime_end, act => act.MapFrom(src => src.DatetimeEnd))
-            .ForMember(dest => dest.datetime_view, act => act.MapFrom(src => src.DatetimeView))
-            .ForMember(dest => dest.amount, act => act.MapFrom(src => src.Amount));
+        // CreateMap<Ticket, Models.Ticket>()
+        //     .ConstructUsing(src => src.ConvertToModel());
+        //
+        // CreateMap<Fontix.Models.Ticket, Ticket>()
+        //     .ConstructUsing(src => new Ticket(src.Id, src.Name, src.EventId, src.Price, src.DatetimeStart,
+        //         src.DatetimeEnd,
+        //         src.DatetimeView, src.Amount));
 
 
         /* USER */

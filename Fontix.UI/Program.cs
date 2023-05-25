@@ -1,3 +1,4 @@
+using System.Globalization;
 using Fontix.BLL;
 using Fontix.DAL;
 using Fontix.UI.Utils;
@@ -19,6 +20,13 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
+
+
+// Set the default culture and decimal separator
+var cultureInfo = new CultureInfo("en-US");
+cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var app = builder.Build();
 

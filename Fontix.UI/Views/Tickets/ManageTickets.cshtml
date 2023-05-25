@@ -1,11 +1,13 @@
-@model IEnumerable<Event>
+@using Fontix.UI.Collections
+
+@model (int EventId, TicketCollection TicketCollection)
 
 @{
-    ViewData["Title"] = "My Events";
+    ViewData["Title"] = "My Tickets";
 }
 
 <div class="d-flex">
-    <h1>My Events</h1>
+    <h1>My Tickets</h1>
     <div class="align-self-center ms-auto justify-self-end">
 
         <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#addModal">
@@ -17,28 +19,19 @@
         </button>
 
         <!-- ADD MODAL -->
-        @using (Html.BeginForm("Create", "Events", FormMethod.Post))
+        @using (Html.BeginForm("Create", "Tickets", new { EventId = Model.EventId }, FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Event</h5>
+                            <h5 class="modal-title">Add Ticket</h5>
                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body text-start">
                             <!-- OrganiserId input -->
-                            <div class="select-wrapper mb-4">
-                                <select class="select" name="OrganiserId">
-                                    <option value="1">AlecEvents</option>
-                                    <option value="2">TestEvents</option>
-                                    <option value="3">MarkEvents</option>
-                                    <option value="4">DennisEvents</option>
-                                </select>
-                                <label>Organiser</label>
-                            </div>
 
                             <!-- Name input -->
                             <div class="form-outline mb-4">
@@ -67,10 +60,10 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => Model.TicketCollection.Get()[0].Name)
         </th>
-        <th class="d-none d-md-table-cell">
-            @Html.DisplayNameFor(model => model.Description)
+        <th>
+            @Html.DisplayNameFor(model => Model.TicketCollection.Get()[0].Price)
         </th>
         <th class="text-end pe-5">
             Acties
@@ -78,30 +71,67 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.TicketCollection.Get())
     {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td class="d-none d-md-table-cell">
-                @Html.DisplayFor(modelItem => item.Description)
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td class="text-end">
                 <div class="d-flex align-items-center justify-content-end">
                     @if (1 == 1)
                     {
-                        <a type="button" class="btn btn-outline-primary px-2 py-1 ms-2" href="@Url.RouteUrl(new { action = "Details", controller = "Events", id = item.Id })">
-                            <span class="d-none d-md-inline">Details&nbsp;</span>
-                            <i class="fas fa-bars"></i>
-                        </a>
+                        <button type="button" class="btn btn-outline-primary px-2 py-1 ms-2" data-mdb-toggle="modal" data-mdb-target="#editModal-@item.Id">
+                            <i class="fas fa-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary px-2 py-1 ms-1" data-mdb-toggle="modal" data-mdb-target="#editModal-@item.Id">
+                            <i class="fas fa-ticket"></i>
+                        </button>
 
                         <button type="button" class="btn btn-outline-danger px-2 py-1 ms-1" data-mdb-toggle="modal" data-mdb-target="#confirmDelectionModal-@item.Id">
                             <i class="fas fa-trash-can"></i>
                         </button>
 
+
+                        <!-- EDIT MODAL -->
+                        @using (Html.BeginForm("Edit", "Tickets", new { id = item.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="modal fade" id="editModal-@item.Id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Make changes</h5>
+                                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body text-start">
+                                            <!-- Name input -->
+                                            <div class="form-outline mb-4">
+                                                <input type="text" name="Name" class="form-control" value="@item.Name"/>
+                                                <label class="form-label">Name</label>
+                                            </div>
+
+                                            <!-- Description input -->
+                                            <div class="form-outline mb-4">
+                                                <input type="text" name="Description" class="form-control" value="@item.Price"/>
+                                                <label class="form-label">Description</label>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                         /* DELETE MODAL */
-                        @using (Html.BeginForm("Delete", "Events", new { id = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Delete", "Tickets", new { id = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
 
@@ -114,7 +144,7 @@
                                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body text-start">
-                                            Are you sure you want to delete event <b>@item.Name</b>
+                                            Are you sure you want to delete ticket <b>@item.Id</b>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>

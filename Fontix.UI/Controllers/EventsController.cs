@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Fontix.IBLL.Collections;
+using Fontix.UI.Models;
+using Fontix.UI.Models.BindingModels;
 using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
@@ -8,28 +10,26 @@ namespace Fontix.UI.Controllers;
 public class EventsController : Controller
 {
     private readonly IEventCollection _eventCollection;
-    private readonly IMapper _mapper;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public EventsController(IEventCollection eventCollection, IMapper mapper, ISessionAccess sessionAccess)
+    public EventsController(IEventCollection eventCollection, ISessionAccess sessionAccess)
     {
         _eventCollection = eventCollection;
-        _mapper = mapper;
         _sessionAccess = sessionAccess;
     }
 
     //CREATE EVENT
     [HttpPost]
-    public async Task<IActionResult> Create(Models.Event uiEvent)
+    public async Task<IActionResult> Create(EventBindingModel bindingModel)
     {
-        if (uiEvent == null)
+        if (bindingModel == null)
         {
             throw new Exception("empty values");
         }
-        
-        
-        
+
+        var uiEvent = new Event(bindingModel);
+
         // check if user is part of companyId
         // int userId = _sessionAccess.GetUserId();
         //
@@ -40,7 +40,7 @@ public class EventsController : Controller
         //
         // uiEvent.OrganiserId = userId;
 
-        Fontix.Models.Event logicEvent = _mapper.Map<Fontix.Models.Event>(uiEvent);
+        var logicEvent = uiEvent.ConvertToModel();
         try
         {
             await _eventCollection.InsertEvent(logicEvent);
@@ -59,43 +59,33 @@ public class EventsController : Controller
     {
         var events = await _eventCollection.GetAllEvents();
 
-        return View(events.Select(r => _mapper.Map<Models.Event>(r)));
+        return View(events.Select(logicEvent => new Event(logicEvent)));
     }
-    
+
 
     //READ EVENT
-    public async Task<IActionResult> Details(int? id)
+    public async Task<IActionResult> Details(int id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        var logicEvent = await _eventCollection.GetEventWithTickets(id);
 
-        var logicEvent = await _eventCollection.GetEventWithTickets(id.Value);
-
-        if (logicEvent == null)
-        {
-            return NotFound();
-        }
-
-        var uiEvent = _mapper.Map<Fontix.UI.Models.Event>(logicEvent);
+        var uiEvent = new Event(logicEvent);
 
         return View(uiEvent);
     }
 
     //UPDATE event
     [HttpPost]
-    public async Task<IActionResult> Edit(Fontix.UI.Models.Event uiEvent)
+    public async Task<IActionResult> Edit(EventBindingModel bindingModel)
     {
+        var uiEvent = new Event(bindingModel);
         if (uiEvent == null)
         {
             throw new Exception("empty values");
         }
 
-        Fontix.Models.Event logicEvent = _mapper.Map<Fontix.Models.Event>(uiEvent);
         try
         {
-            await _eventCollection.UpdateEvent(logicEvent);
+            await _eventCollection.UpdateEvent(uiEvent.ConvertToModel());
         }
         catch (Exception e)
         {
@@ -103,9 +93,9 @@ public class EventsController : Controller
         }
 
 
-        return RedirectToAction("ManageEvents");
+        return RedirectToAction("Details", new { id = uiEvent.Id });
     }
-    
+
 
     //DELETE event
     [HttpPost]
@@ -129,4 +119,3 @@ public class EventsController : Controller
         return RedirectToAction("ManageEvents");
     }
 }
-

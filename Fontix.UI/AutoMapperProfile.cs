@@ -8,16 +8,16 @@ namespace Fontix.UI
         public AutoMapperProfile()
         {
             /*EVENT*/
-            CreateMap<Fontix.Models.Event, Event>();
-            CreateMap<Event, Fontix.Models.Event>();
+            // CreateMap<Fontix.Models.Event, Event>();
+            // CreateMap<Event, Fontix.Models.Event>();
 
             /* USER */
             // CreateMap<Fontix.Models.User, User>();
             // CreateMap<User, Fontix.Models.User>();
 
             /* TICKET */
-            CreateMap<Fontix.Models.Ticket, Ticket>();
-            CreateMap<Ticket, Fontix.Models.Ticket>();
+            // CreateMap<Fontix.Models.Ticket, Ticket>();
+            // CreateMap<Ticket, Fontix.Models.Ticket>();
             
         }
     }

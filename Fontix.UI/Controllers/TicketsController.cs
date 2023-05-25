@@ -1,6 +1,9 @@
-using AutoMapper;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Fontix.IBLL.Collections;
+using Fontix.UI.Collections;
+using Fontix.UI.Models;
+using Fontix.UI.Models.BindingModels;
 using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
@@ -8,21 +11,21 @@ namespace Fontix.UI.Controllers;
 public class TicketsController : Controller
 {
     private readonly ITicketCollection _ticketCollection;
-    private readonly IMapper _mapper;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public TicketsController(ITicketCollection ticketCollection, IMapper mapper, ISessionAccess sessionAccess)
+    public TicketsController(ITicketCollection ticketCollection, ISessionAccess sessionAccess)
     {
         _ticketCollection = ticketCollection;
-        _mapper = mapper;
         _sessionAccess = sessionAccess;
     }
 
     //CREATE TICKET
     [HttpPost]
-    public async Task<IActionResult> Create(Models.Ticket uiTicket)
+    public async Task<IActionResult> Create(TicketBindingModel bindingModel)
     {
+        var uiTicket = new Ticket(bindingModel);
+
         if (uiTicket == null)
         {
             throw new Exception("empty values");
@@ -38,32 +41,29 @@ public class TicketsController : Controller
         //
         // uiTicket.OrganiserId = userId;
 
-        Fontix.Models.Ticket logicTicket = _mapper.Map<Fontix.Models.Ticket>(uiTicket);
         try
         {
-            await _ticketCollection.InsertTicket(logicTicket);
+            await _ticketCollection.InsertTicket(uiTicket.ConvertToModel());
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
 
-
-        return RedirectToAction("ManageTickets");
+        return RedirectToAction("Details", "Events", new { id = uiTicket.EventId });
     }
 
     //READ TICKETS
     public async Task<IActionResult> ManageTickets(int eventId)
     {
-        var tickets = await _ticketCollection.GetAllTickets();
+        List<Fontix.Models.Ticket> logicTickets = await _ticketCollection.GetAllTickets();
 
-        var myObj = new
-        {
-            tickets,
-            eventId
-        };
+        var uiTicketCollection = new TicketCollection(logicTickets);
 
-        return View(myObj);
+
+        var tuple = (EventId: eventId, TicketCollection: uiTicketCollection);
+
+        return View(tuple);
     }
 
     //READ TICKET
@@ -81,21 +81,22 @@ public class TicketsController : Controller
             return NotFound();
         }
 
-        var uiTicket = _mapper.Map<Fontix.UI.Models.Ticket>(logicTicket);
+        var uiTicket = new Ticket(logicTicket);
 
         return View(uiTicket);
     }
 
     //UPDATE TICKET
     [HttpPost]
-    public async Task<IActionResult> Edit(Fontix.UI.Models.Ticket uiTicket)
+    public async Task<IActionResult> Edit(TicketBindingModel bindingModel)
     {
+        var uiTicket = new Ticket(bindingModel);
         if (uiTicket == null)
         {
             throw new Exception("empty values");
         }
 
-        Fontix.Models.Ticket logicTicket = _mapper.Map<Fontix.Models.Ticket>(uiTicket);
+        var logicTicket = uiTicket.ConvertToModel();
         try
         {
             await _ticketCollection.UpdateTicket(logicTicket);
@@ -111,13 +112,12 @@ public class TicketsController : Controller
 
     //DELETE ticket
     [HttpPost]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, int eventId)
     {
         if (id == null)
         {
             throw new Exception("empty values");
         }
-
 
         try
         {
@@ -127,6 +127,7 @@ public class TicketsController : Controller
         {
             Console.WriteLine(e);
         }
-        return RedirectToAction("Details", "Events", new { id = 1 });//TODO remove hardcode
+
+        return RedirectToAction("Details", "Events", new { id = eventId });
     }
 }

@@ -8,12 +8,10 @@ namespace Fontix.DAL.Data;
 public class OrganiserDal : IOrganiserDal
 {
     private readonly IDbAccess _db;
-    private readonly IMapper _mapper;
 
-    public OrganiserDal(IDbAccess db, IMapper mapper)
+    public OrganiserDal(IDbAccess db)
     {
         _db = db;
-        _mapper = mapper;
     }
 
     public async Task<IEnumerable<Models.Organiser>> GetOrganisers()
@@ -23,7 +21,7 @@ public class OrganiserDal : IOrganiserDal
             new { });
 
         //map data to Models.Organiser
-        return organisers.Select(r => _mapper.Map<Models.Organiser>(r));
+        return organisers.Select(r => r.ConvertToModel());
     }
 
     public async Task<IEnumerable<Models.Organiser>> GetOrganiserOrganisers(int id)
@@ -32,7 +30,7 @@ public class OrganiserDal : IOrganiserDal
             storedprocedure: "alecit_fontix.sp_Organisers_GetOrganiserOrganisers",
             new { Iorganiser_id = id });
 
-        return organisers.Select(r => _mapper.Map<Models.Organiser>(r));
+        return organisers.Select(r => r.ConvertToModel());
     }
 
     public async Task<Models.Organiser> GetOrganiser(int id)
@@ -43,14 +41,14 @@ public class OrganiserDal : IOrganiserDal
 
         var myOrganiser = results.FirstOrDefault();
 
-        return _mapper.Map<Models.Organiser>(myOrganiser);
+        return myOrganiser.ConvertToModel();
     }
 
     public async Task<Models.Organiser> GetOrganiserWithReference(int id)
     {
         var lookup = new Dictionary<int, Organiser>();
 
-        var results = await _db.LoadDataWithJoin<Organiser, Event, Organiser, dynamic>(
+        var result = await _db.LoadDataWithJoin<Organiser, Event, Organiser, dynamic>(
             "alecit_seathub.sp_Organisers_GetOrganiserWithReference",
             new { Iorganiser_id = id },
             (organiser, myEvent) =>
@@ -59,15 +57,14 @@ public class OrganiserDal : IOrganiserDal
                 if (!lookup.TryGetValue(organiser.id, out Organiser o))
                 {
                     o = organiser;
-                    o.Events = new List<Event>();
                     lookup.Add(o.id, o);
                 }
 
                 // Set the event ID using the alias
-                myEvent.id = myEvent.alias_event_id;
+                myEvent.SetAlias();
 
                 // Add the event to the organiser's list of events if it doesn't already exist
-                if (o.Events.All(r => r.id != myEvent.id))
+                if (o.Events.Get().All(r => r.id != myEvent.id))
                 {
                     o.Events.Add(myEvent);
                 }
@@ -78,7 +75,7 @@ public class OrganiserDal : IOrganiserDal
             new { }
         );
 
-        return _mapper.Map<Models.Organiser>(results);
+        return result.ConvertToModel();
     }
 
     public Task InsertOrganiser(Models.Organiser organiser) => _db.Savedata(

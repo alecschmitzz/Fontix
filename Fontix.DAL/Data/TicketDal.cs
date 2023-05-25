@@ -8,12 +8,10 @@ namespace Fontix.DAL.Data;
 public class TicketDal : ITicketDal
 {
     private readonly IDbAccess _db;
-    private readonly IMapper _mapper;
 
-    public TicketDal(IDbAccess db, IMapper mapper)
+    public TicketDal(IDbAccess db)
     {
         _db = db;
-        _mapper = mapper;
     }
 
     public async Task<IEnumerable<Models.Ticket>> GetTickets()
@@ -23,7 +21,7 @@ public class TicketDal : ITicketDal
             new { });
 
         //map data to Models.Ticket
-        return tickets.Select(r => _mapper.Map<Models.Ticket>(r));
+        return tickets.Select(r => r.ConvertToModel());
     }
 
     public async Task<IEnumerable<Models.Ticket>> GetUserTickets(int id)
@@ -32,7 +30,7 @@ public class TicketDal : ITicketDal
             storedprocedure: "alecit_fontix.sp_Tickets_GetUserTickets",
             new { Iuser_id = id });
 
-        return tickets.Select(r => _mapper.Map<Models.Ticket>(r));
+        return tickets.Select(r => r.ConvertToModel());
     }
 
     public async Task<Models.Ticket> GetTicket(int id)
@@ -43,7 +41,7 @@ public class TicketDal : ITicketDal
 
         var myTicket = results.FirstOrDefault();
 
-        return _mapper.Map<Models.Ticket>(myTicket);
+        return myTicket.ConvertToModel();
     }
 
     public Task InsertTicket(Models.Ticket ticket) => _db.Savedata(
@@ -52,6 +50,7 @@ public class TicketDal : ITicketDal
         {
             Iname = ticket.Name,
             Ievent_id = ticket.EventId,
+            Iprice = ticket.Price,
             Idatetime_start = ticket.DatetimeStart,
             Idatetime_end = ticket.DatetimeView,
             Idatetime_view = ticket.DatetimeView,
