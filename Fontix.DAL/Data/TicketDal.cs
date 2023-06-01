@@ -52,7 +52,7 @@ public class TicketDal : ITicketDal
             Ievent_id = ticket.EventId,
             Iprice = ticket.Price,
             Idatetime_start = ticket.DatetimeStart,
-            Idatetime_end = ticket.DatetimeView,
+            Idatetime_end = ticket.DatetimeEnd,
             Idatetime_view = ticket.DatetimeView,
             Iamount = ticket.Amount
         });

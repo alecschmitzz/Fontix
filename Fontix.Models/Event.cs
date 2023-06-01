@@ -6,6 +6,7 @@ public class Event
     public int OrganiserId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public DateTime DateTimeView { get; private set; }
     public List<Ticket> Tickets { get; private set; }
 
     public Event()
@@ -13,12 +14,13 @@ public class Event
         Tickets = new List<Ticket>();
     }
 
-    public Event(int id, int organiserId, string name, string description, List<Ticket> tickets)
+    public Event(int id, int organiserId, string name, string description, DateTime datetimeView, List<Ticket> tickets)
     {
         Id = id;
         OrganiserId = organiserId;
         Name = name;
         Description = description;
+        DateTimeView = datetimeView;
         Tickets = tickets;
     }
 }

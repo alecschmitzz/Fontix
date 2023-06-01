@@ -79,6 +79,7 @@ public class EventDal : IEventDal
             Iorganiser_id = myEvent.OrganiserId,
             Iname = myEvent.Name,
             Idescription = myEvent.Description,
+            Idatetime_view = myEvent.DateTimeView,
         });
 
 
@@ -88,6 +89,7 @@ public class EventDal : IEventDal
         {
             Iname = myEvent.Name,
             Idescription = myEvent.Description,
+            Idatetime_view = myEvent.DateTimeView,
             Ievent_id = myEvent.Id
         });
 

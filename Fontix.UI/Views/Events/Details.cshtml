@@ -47,6 +47,12 @@
                                 <input type="text" name="Description" class="form-control" value="@Model.Description"/>
                                 <label class="form-label">Description</label>
                             </div>
+
+                            <!-- DateTime View input -->
+                            <div class="form-outline mb-4">
+                                <input type="datetime-local" name="DateTimeView" class="form-control" value="@Model.DateTimeView.ToString("yyyy-MM-dd HH:mm")"/>
+                                <label class="form-label">DateTime View</label>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -190,19 +196,19 @@
 
                                             <!-- DateTime Start input -->
                                             <div class="form-outline mb-4">
-                                                <input type="datetime-local" name="DateTimeStart" class="form-control" value="@item.DateTimeStart.ToString("yyyy-MM-d HH:mm")"/>
+                                                <input type="datetime-local" name="DateTimeStart" class="form-control" value="@item.DateTimeStart.ToString("yyyy-MM-dd HH:mm")"/>
                                                 <label class="form-label">DateTime Start</label>
                                             </div>
 
                                             <!-- DateTime End input -->
                                             <div class="form-outline mb-4">
-                                                <input type="datetime-local" name="DateTimeEnd" class="form-control" value="@item.DateTimeEnd.ToString("yyyy-MM-d HH:mm")"/>
+                                                <input type="datetime-local" name="DateTimeEnd" class="form-control" value="@item.DateTimeEnd.ToString("yyyy-MM-dd HH:mm")"/>
                                                 <label class="form-label">DateTime End</label>
                                             </div>
 
                                             <!-- DateTime View input -->
                                             <div class="form-outline mb-4">
-                                                <input type="datetime-local" name="DateTimeView" class="form-control" value="@item.DateTimeView.ToString("yyyy-MM-d HH:mm")"/>
+                                                <input type="datetime-local" name="DateTimeView" class="form-control" value="@item.DateTimeView.ToString("yyyy-MM-dd HH:mm")"/>
                                                 <label class="form-label">DateTime View</label>
                                             </div>
 

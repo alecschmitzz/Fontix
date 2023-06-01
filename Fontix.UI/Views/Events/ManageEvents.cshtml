@@ -1,11 +1,14 @@
-@model IEnumerable<Event>
+@model Tuple<List<Event>, List<Organiser>>
+
+
 
 @{
-    ViewData["Title"] = "My Events";
+    ViewData["Title"] = "Editing Events";
 }
 
+<h2 class="text-fontix-purple fw-bold text-center small">organiser</h2>
+<h1 class="text-fontix-blue fw-bold text-center">Editing Events</h1>
 <div class="d-flex">
-    <h1>My Events</h1>
     <div class="align-self-center ms-auto justify-self-end">
 
         <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#addModal">
@@ -32,10 +35,10 @@
                             <!-- OrganiserId input -->
                             <div class="select-wrapper mb-4">
                                 <select class="select" name="OrganiserId">
-                                    <option value="1">AlecEvents</option>
-                                    <option value="2">TestEvents</option>
-                                    <option value="3">MarkEvents</option>
-                                    <option value="4">DennisEvents</option>
+                                    @foreach (var item in Model.Item2)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
                                 </select>
                                 <label>Organiser</label>
                             </div>
@@ -51,6 +54,12 @@
                                 <input type="text" name="Description" class="form-control"/>
                                 <label class="form-label">Description</label>
                             </div>
+                            
+                            <!-- DateTime View input -->
+                            <div class="form-outline mb-4">
+                                <input type="datetime-local" name="DateTimeView" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")"/>
+                                <label class="form-label">DateTime View</label>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -63,14 +72,14 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table text-fontix-blue align-middle table-alternate-fontix-blue-light">
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Item1[0].DateTimeView)
         </th>
-        <th class="d-none d-md-table-cell">
-            @Html.DisplayNameFor(model => model.Description)
+        <th class="d-none d-md-table-cell fw-bold text-fontix-blue">
+            @Html.DisplayNameFor(model => model.Item1[0].Name)
         </th>
         <th class="text-end pe-5">
             Acties
@@ -78,14 +87,14 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Item1)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.DateTimeView)
             </td>
-            <td class="d-none d-md-table-cell">
-                @Html.DisplayFor(modelItem => item.Description)
+            <td class="d-none d-md-table-cell fw-bold text-fontix-blue">
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td class="text-end">
                 <div class="d-flex align-items-center justify-content-end">

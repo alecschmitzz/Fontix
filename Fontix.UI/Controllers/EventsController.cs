@@ -10,12 +10,14 @@ namespace Fontix.UI.Controllers;
 public class EventsController : Controller
 {
     private readonly IEventCollection _eventCollection;
+    private readonly IOrganiserCollection _organiserCollection;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public EventsController(IEventCollection eventCollection, ISessionAccess sessionAccess)
+    public EventsController(IEventCollection eventCollection, IOrganiserCollection organiserCollection, ISessionAccess sessionAccess)
     {
         _eventCollection = eventCollection;
+        _organiserCollection = organiserCollection;
         _sessionAccess = sessionAccess;
     }
 
@@ -57,9 +59,17 @@ public class EventsController : Controller
     //READ EVENTS
     public async Task<IActionResult> ManageEvents()
     {
-        var events = await _eventCollection.GetAllEvents();
+        var logicEvents = await _eventCollection.GetAllEvents();
+        var uiEvents = logicEvents.Select(logicEvent => new Event(logicEvent)).ToList();
+        
+        //TODO: only select organisers connected to user
+        var logicOrganisers = await _organiserCollection.GetAllOrganisers();
+        var uiOrganisers = logicOrganisers.Select(logicOrganiser => new Organiser(logicOrganiser)).ToList();
+        
+        
+        var tupleModel = new Tuple<List<Event>, List<Organiser>>(uiEvents, uiOrganisers);
 
-        return View(events.Select(logicEvent => new Event(logicEvent)));
+        return View(tupleModel);
     }
 
 

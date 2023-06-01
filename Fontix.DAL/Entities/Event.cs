@@ -9,6 +9,7 @@ public class Event
     private int organiser_id;
     private string name;
     private string description;
+    private DateTime datetime_view;
     public TicketCollection Tickets { get; private set; }
 
     public Event()
@@ -16,12 +17,13 @@ public class Event
         Tickets = new TicketCollection();
     }
 
-    public Event(int id, int organiserId, string name, string description, List<Ticket>? tickets)
+    public Event(int id, int organiserId, string name, string description, DateTime datetimeView, List<Ticket>? tickets)
     {
         this.id = id;
         this.organiser_id = organiserId;
         this.name = name;
         this.description = description;
+        this.datetime_view = datetimeView;
         // Tickets = new TicketCollection(tickets);
     }
 
@@ -34,7 +36,7 @@ public class Event
             modelTickets.Add(ticket.ConvertToModel());
         }
 
-        return new Models.Event(id, organiser_id, name, description, modelTickets);
+        return new Models.Event(id, organiser_id, name, description, datetime_view, modelTickets);
     }
 
     public void SetAlias()

@@ -134,3 +134,43 @@ function onClickOutsideSelect(e) {
 }
 
 /* [END] AlecIT - SELECT */
+
+
+/* [BEGIN] AlecIT - NAVBAR */
+let nav = document.querySelector(".fontix-nav")
+let burger = nav.querySelector('.burger');
+
+burger.addEventListener('click', function () {
+    let navtimeout;
+    if (this.classList.contains("collapsed")) {
+        clearTimeout(navtimeout);
+        nav.style.height = 'calc(100vh - calc(100vh - 100%))';
+        
+        this.classList.remove("collapsed");
+        this.parentNode.classList.remove("collapsed");
+        this.parentNode.parentNode.classList.remove("collapsed");
+        
+        this.classList.add("expanded");
+        this.parentNode.classList.add("expanded");
+        this.parentNode.parentNode.classList.add("expanded");
+        
+        nav.querySelectorAll('.menu ul li').forEach(li => li.classList.add("aos-animate"));
+    } else if (this.classList.contains("expanded")) {
+        navtimeout = setTimeout(() => {
+            nav.style.height = '';
+        }, 700);
+        
+        this.classList.remove("expanded");
+        this.parentNode.classList.remove("expanded");
+        this.parentNode.parentNode.classList.remove("expanded");
+        
+        this.classList.add("collapsed");
+        this.parentNode.classList.add("collapsed");
+        this.parentNode.parentNode.classList.add("collapsed");
+        
+        nav.querySelectorAll(".menu ul li").forEach(li => li.classList.remove("aos-animate"));
+    }
+});
+
+
+/* [END] AlecIT - NAVBAR */

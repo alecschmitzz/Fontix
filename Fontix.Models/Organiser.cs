@@ -4,7 +4,7 @@ public class Organiser
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    public virtual List<Event> Events { get; private set; }
+    public List<Event> Events { get; private set; }
 
     public Organiser()
     {
