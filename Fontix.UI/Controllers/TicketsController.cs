@@ -39,7 +39,7 @@ public class TicketsController : Controller
         //     return RedirectToAction("Login", "User");
         // }
         //
-        // uiTicket.OrganiserId = userId;
+        // uiTicket.OrganisationId = userId;
 
         try
         {

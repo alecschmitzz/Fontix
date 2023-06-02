@@ -22,6 +22,16 @@ public class EventDal : IEventDal
         //map data to Models.Event
         return events.Select(r => r.ConvertToModel());
     }
+    
+    public async Task<IEnumerable<Models.Event>> GetOrganisationEvents(int id)
+    {
+        var events = await _db.LoadData<Event, dynamic>(
+            storedprocedure: "alecit_fontix.sp_Events_GetAllFromOrganisation",
+            new { Iorganisation_id = id });
+
+        //map data to Models.Event
+        return events.Select(r => r.ConvertToModel());
+    }
 
     public async Task<Models.Event> GetEvent(int id)
     {
@@ -76,7 +86,7 @@ public class EventDal : IEventDal
         storedprocedure: "alecit_fontix.sp_Events_InsertEvent",
         parameters: new
         {
-            Iorganiser_id = myEvent.OrganiserId,
+            Iorganisation_id = myEvent.OrganisationId,
             Iname = myEvent.Name,
             Idescription = myEvent.Description,
             Idatetime_view = myEvent.DateTimeView,

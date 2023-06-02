@@ -4,53 +4,59 @@ using Fontix.Models;
 
 namespace Fontix.BLL.Collections;
 
-public class OrganiserCollection : IOrganiserCollection
+public class OrganisationCollection : IOrganisationCollection
 {
-    private readonly IOrganiserDal _data;
+    private readonly IOrganisationDal _data;
 
-    public OrganiserCollection(IOrganiserDal data)
+    public OrganisationCollection(IOrganisationDal data)
     {
         _data = data;
     }
 
-    public async Task<List<Organiser>> GetAllOrganisers()
+    public async Task<List<Organisation>> GetAllOrganisations()
     {
-        var organisers = await _data.GetOrganisers();
-        return organisers.ToList();
+        var organisations = await _data.GetOrganisations();
+        return organisations.ToList();
     }
 
-    public async Task<Organiser> GetOrganiser(int id)
+    public async Task<List<Organisation>> GetUserOrganisations(int id)
     {
-        return await _data.GetOrganiser(id);
-    }
-    
-    public async Task<Organiser> GetOrganiserWithReference(int id)
-    {
-        return await _data.GetOrganiserWithReference(id);
+        var organisations = await _data.GetUserOrganisations(id);
+        return organisations.ToList();
     }
 
-    public async Task InsertOrganiser(Organiser myOrganiser)
+    public async Task<Organisation> GetOrganisation(int id)
     {
-        // var workspaceId = organiser.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
-        // var userId = organiser.UserId ?? throw new InvalidInputException("userId is empty");
-        
-        await _data.InsertOrganiser(myOrganiser);
+        return await _data.GetOrganisation(id);
     }
 
-    public async Task UpdateOrganiser(Organiser myOrganiser)
+    public async Task<Organisation> GetOrganisationWithReference(int id)
+    {
+        return await _data.GetOrganisationWithReference(id);
+    }
+
+    public async Task InsertOrganisation(Organisation myOrganisation)
+    {
+        // var workspaceId = organisation.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
+        // var userId = organisation.UserId ?? throw new InvalidInputException("userId is empty");
+
+        await _data.InsertOrganisation(myOrganisation);
+    }
+
+    public async Task UpdateOrganisation(Organisation myOrganisation)
     {
         //check for empty input
         //TODO: check input for admin stuff
         //TODO: check input if time is allowed etc.
-        // var workspaceId = organiser.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
-        // var userId = organiser.UserId ?? throw new InvalidInputException("userId is empty");
+        // var workspaceId = organisation.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
+        // var userId = organisation.UserId ?? throw new InvalidInputException("userId is empty");
 
-        
-        await _data.UpdateOrganiser(myOrganiser);
+
+        await _data.UpdateOrganisation(myOrganisation);
     }
 
-    public async Task DeleteOrganiser(int id)
+    public async Task DeleteOrganisation(int id)
     {
-        await _data.DeleteOrganiser(id);
+        await _data.DeleteOrganisation(id);
     }
 }

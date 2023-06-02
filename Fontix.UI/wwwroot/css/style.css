@@ -35,7 +35,8 @@ body {
 
 .select-dropdown {
     background-color: #fff;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    /*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/
+    box-shadow: 0 2px 5px 0 rgba(99, 92, 255, 0.16), 0 2px 10px 0 rgba(99, 92, 255, 0.12);
     margin: 0;
     min-width: 100px;
     outline: 0;
@@ -43,6 +44,7 @@ body {
     transform: scaleY(0.8);
     opacity: 0;
     transition: all 0.2s;
+    border-radius: .25rem;
 }
 
 .select-dropdown.open {
@@ -97,6 +99,26 @@ body {
 
 .select-option.active {
     background-color: rgba(0, 0, 0, 0.048);
+}
+
+.select-small-input {
+    padding: 0;
+    color: var(--fontix-purple) !important;
+}
+
+.select-small-caret {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 10px);
+    transform: translateY(-50%);
+    color: var(--fontix-purple) !important;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .4s ease-in-out .2s;
+}
+
+.select-small-caret.show {
+    opacity: 1;
 }
 
 /* [END] AlecIT - SELECT */
@@ -170,7 +192,6 @@ footer {
 .fontix-nav nav .menu {
     position: absolute;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     z-index: 15;
@@ -226,7 +247,7 @@ footer {
 }
 
 .fontix-nav nav .menu ul li a:hover {
-    color: #001c12;
+    color: var(--fontix-purple);
 }
 
 .fontix-nav nav .menu-bg {
@@ -249,12 +270,88 @@ footer {
     border-radius: .5rem;
 }
 
+@media (min-width: 992px) {
+    .fontix-nav nav .menu-bg {
+        background-image: url("/assets/fontix-menu.png");
+        background-position: -1280px 1280px;
+        background-size: 90vh;
+        background-repeat: no-repeat;
+    }
+
+    .fontix-nav nav .menu {
+        width: auto;
+        left: 75%;
+        transform: translateX(-75%);
+    }
+}
+
+.fontix-nav nav .burger .menu-open {
+    height: 25px;
+    opacity: 100%;
+    transition: height 0ms ease-in-out 0s, opacity .8s ease-in-out 0ms;
+}
+
+.fontix-nav nav .burger .menu-close {
+    color: #FFFFFF;
+    height: 0;
+    opacity: 0;
+    transition: height 0ms ease-in-out .8s, opacity .8s ease-in-out 0ms;
+}
+
+.fontix-nav nav .burger.expanded .menu-open {
+    height: 0;
+    opacity: 0;
+    transition: height 0ms ease-in-out .8s, opacity .8s ease-in-out 0ms;
+}
+
+.fontix-nav nav .burger.expanded .menu-close {
+    height: 25px;
+    opacity: 100%;
+    transition: height 0ms ease-in-out 0s, opacity .8s ease-in-out 0ms;
+}
+
+.fontix-nav nav .burger p {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100%;
+}
+
+
+.fontix-nav nav .burger .fa-close, .fontix-nav nav .burger .fa-open {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fontix-nav nav .burger .fa-bars {
+    transition: opacity .4s ease-in-out .4s;
+}
+
+.fontix-nav nav .burger .fa-close {
+    transition: opacity .4s ease-in-out 0s;
+    opacity: 0;
+}
+
+.fontix-nav nav .burger.expanded .fa-bars {
+    transition: opacity .4s ease-in-out 0s;
+    opacity: 0;
+}
+
+.fontix-nav nav .burger.expanded .fa-close {
+    transition: opacity .4s ease-in-out .4s;
+    opacity: 100%;
+}
+
+
 .fontix-nav nav .burger {
     position: absolute;
     top: 50px;
     right: 50px;
     z-index: 16;
-    overflow: hidden;
+    /*overflow: hidden;*/
     cursor: pointer;
 }
 
@@ -270,32 +367,48 @@ footer {
     pointer-events: auto;
 }
 
-
-.fontix-nav nav .burger p {
-    transition: all 0.8s ease-in-out 0s;
-}
-
 .fontix-nav nav .burger button {
+    position: relative;
     width: 50px;
     height: 50px;
     border-radius: .5rem;
     font-size: 1.6rem;
 }
 
-.fontix-nav nav .burger.expanded p {
-    color: #FFFFFF;
-}
+/*.fontix-nav nav .burger ~ .fontix-nav-menu {*/
+/*    position: fixed;*/
+/*    bottom: -100%;*/
+/*    left: 0;*/
+/*    height: 75vh;*/
+/*    z-index: 900;*/
+/*    transition: bottom .8s ease-in-out;*/
+/*}*/
+
+/*.fontix-nav nav .burger.expanded ~ .fontix-nav-menu {*/
+/*    bottom: 0;*/
+/*    transition: bottom 2s ease-in-out;*/
+/*}*/
 
 .fontix-nav nav .burger.expanded ~ .menu-bg {
-    width: 500vw;
+    width: 100vw;
     /*min-height: 900px;*/
-    height: 300vh;
+    height: 100vh;
     top: 0;
     right: 0;
     border-radius: 0rem;
     transition: all 0.8s ease-in-out, transform 1s ease-in-out 0.3s, width 0.8s ease-in-out, border-radius 0.8s ease-in-out 0.5s;
     -webkit-transition: all 0.8s ease-in-out, transform 1s ease-in-out 0.3s, width 0.8s ease-in-out, border-radius 0.8s ease-in-out 0.5s;
     /* transform: translate(50%, -50%); */
+    background-position: 0% 100%;
+}
+
+.fontix-nav nav .menu li a {
+    display: inline-block;
+    transition: transform .2s ease-in-out;
+}
+
+.fontix-nav nav .menu li:hover a {
+    transform: translateY(-10px);
 }
 
 /* [END] AlecIT - NAV */

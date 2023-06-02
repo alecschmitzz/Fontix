@@ -10,7 +10,7 @@ public class AutoMapperDALProfile : Profile
         /* EVENTS */
         // CreateMap<Event, Models.Event>()
         //     .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
-        //     .ForMember(dest => dest.OrganiserId, act => act.MapFrom(src => src.organiser_id))
+        //     .ForMember(dest => dest.OrganisationId, act => act.MapFrom(src => src.organisation_id))
         //     .ForMember(dest => dest.Name, act => act.MapFrom(src => src.name))
         //     .ForMember(dest => dest.Description, act => act.MapFrom(src => src.description))
         //     .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
@@ -19,21 +19,21 @@ public class AutoMapperDALProfile : Profile
         //     .ConstructUsing(src => src.ConvertToModel());
         //
         // CreateMap<Fontix.Models.Event, Event>()
-        //     .ConstructUsing(src => new Event(src.Id, src.OrganiserId, src.Name, src.Description, null));
+        //     .ConstructUsing(src => new Event(src.Id, src.OrganisationId, src.Name, src.Description, null));
 
         // CreateMap<Models.Event, Event>()
         //     .ForMember(dest => dest.id, act => act.MapFrom(src => src.Id))
-        //     .ForMember(dest => dest.organiser_id, act => act.MapFrom(src => src.OrganiserId))
+        //     .ForMember(dest => dest.organisation_id, act => act.MapFrom(src => src.OrganisationId))
         //     .ForMember(dest => dest.name, act => act.MapFrom(src => src.Name))
         //     .ForMember(dest => dest.description, act => act.MapFrom(src => src.Description))
         //     .ForMember(dest => dest.Tickets, act => act.MapFrom(src => src.Tickets));
 
-        /* ORGANISERS */
-        // CreateMap<Organiser, Models.Organiser>()
+        /* ORGANISATIONS */
+        // CreateMap<Organisation, Models.Organisation>()
         //     .ConstructUsing(src => src.ConvertToModel());
         //
-        // CreateMap<Fontix.Models.Organiser, Organiser>()
-        //     .ConstructUsing(src => new Organiser(src.Id, src.Name, null));
+        // CreateMap<Fontix.Models.Organisation, Organisation>()
+        //     .ConstructUsing(src => new Organisation(src.Id, src.Name, null));
 
 
         /*TICKETS*/

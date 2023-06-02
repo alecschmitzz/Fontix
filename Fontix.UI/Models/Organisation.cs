@@ -3,39 +3,39 @@ using Fontix.UI.Models.BindingModels;
 
 namespace Fontix.UI.Models;
 
-public class Organiser
+public class Organisation
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
     public EventCollection Events { get; private set; }
 
-    public Organiser()
+    public Organisation()
     {
         Events = new EventCollection(); // Initialize the Tickets property
     }
 
-    public Organiser(OrganiserBindingModel model)
+    public Organisation(OrganisationBindingModel model)
     {
         Id = model.Id;
         Name = model.Name;
         Events = new EventCollection();
     }
 
-    public Organiser(int id, string name, List<Event> events)
+    public Organisation(int id, string name, List<Event> events)
     {
         Id = id;
         Name = name;
         Events = new EventCollection(events);
     }
 
-    public Organiser(Fontix.Models.Organiser logicOrganiser)
+    public Organisation(Fontix.Models.Organisation logicOrganisation)
     {
-        Id = logicOrganiser.Id;
-        Name = logicOrganiser.Name;
-        Events = new EventCollection(logicOrganiser.Events);
+        Id = logicOrganisation.Id;
+        Name = logicOrganisation.Name;
+        Events = new EventCollection(logicOrganisation.Events);
     }
 
-    public Fontix.Models.Organiser ConvertToModel()
+    public Fontix.Models.Organisation ConvertToModel()
     {
         var modelEvents = new List<Fontix.Models.Event>();
 
@@ -44,6 +44,6 @@ public class Organiser
             modelEvents.Add(myEvent.ConvertToModel());
         }
 
-        return new Fontix.Models.Organiser(Id, Name, modelEvents);
+        return new Fontix.Models.Organisation(Id, Name, modelEvents);
     }
 }

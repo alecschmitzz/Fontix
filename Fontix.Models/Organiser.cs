@@ -1,17 +1,17 @@
 namespace Fontix.Models;
 
-public class Organiser
+public class Organisation
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
     public List<Event> Events { get; private set; }
 
-    public Organiser()
+    public Organisation()
     {
         Events = new List<Event>();
     }
 
-    public Organiser(int id, string name, List<Event> events)
+    public Organisation(int id, string name, List<Event> events)
     {
         Id = id;
         Name = name;

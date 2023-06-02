@@ -4,10 +4,11 @@
     ViewData["Title"] = Model.Name;
 }
 
+<h2 class="text-fontix-purple fw-bold text-center small">event details</h2>
+<h1 class="text-fontix-blue fw-bold text-center">@Model.Name</h1>
+<p class="my-3 text-center">@Model.Description</p>
 <div class="d-flex">
-    <h1>@Model.Name</h1>
     <div class="align-self-center ms-auto justify-self-end">
-
         <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#editEventModal">
             <span>
                 <strong>Edit Event</strong>
@@ -123,9 +124,8 @@
         }
     </div>
 </div>
-<p class="my-3">@Model.Description</p>
 
-<table class="table">
+<table class="table text-fontix-blue align-middle table-alternate-fontix-blue-light">
     <thead>
     <tr>
         <th>

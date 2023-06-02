@@ -13,7 +13,7 @@ public static class ServicesConfiguration
         services.AddSingleton<DapperContext>();
         services.AddSingleton<IDbAccess, DbAccess.DbAccess>();
         services.AddSingleton<IEventDal, EventDal>();
-        services.AddSingleton<IOrganiserDal, OrganiserDal>();
+        services.AddSingleton<IOrganisationDal, OrganisationDal>();
         services.AddSingleton<ITicketDal, TicketDal>();
         services.AddSingleton<IUserDal, UserDal>();
     }

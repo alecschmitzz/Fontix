@@ -19,11 +19,17 @@ public class EventCollection : IEventCollection
         return events.ToList();
     }
 
+    public async Task<List<Event>> GetOrganisationEvents(int id)
+    {
+        var events = await _data.GetOrganisationEvents(id);
+        return events.ToList();
+    }
+
     public async Task<Event> GetEvent(int id)
     {
         return await _data.GetEvent(id);
     }
-    
+
     public async Task<Event> GetEventWithTickets(int id)
     {
         return await _data.GetEventWithTickets(id);
@@ -33,7 +39,7 @@ public class EventCollection : IEventCollection
     {
         // var workspaceId = event.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
         // var userId = event.UserId ?? throw new InvalidInputException("userId is empty");
-        
+
         await _data.InsertEvent(myEvent);
     }
 
@@ -45,7 +51,7 @@ public class EventCollection : IEventCollection
         // var workspaceId = event.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
         // var userId = event.UserId ?? throw new InvalidInputException("userId is empty");
 
-        
+
         await _data.UpdateEvent(myEvent);
     }
 

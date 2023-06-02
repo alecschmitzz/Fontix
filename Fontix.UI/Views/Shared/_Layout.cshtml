@@ -19,6 +19,9 @@
         rel="stylesheet"/>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
 
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
 </head>
@@ -27,15 +30,17 @@
     <div id="content-wrap">
         <header>
             <!-- Navbar -->
-            <img
-                src="~/assets/fontix-logo-color-transparent.png"
-                height="30"
-                alt="Fontix Logo"
-                loading="lazy"
-                style="position: absolute;
+            <a href="@Url.Action("Index", "Home")">
+                <img
+                    src="~/assets/fontix-logo-color-transparent_v2.png"
+                    height="30"
+                    alt="Fontix Logo"
+                    loading="lazy"
+                    style="position: absolute;
                        top: 50px;
                        left: 50px;
                        height: 50px;"/>
+            </a>
             @Html.Partial("_Navbar")
             <!-- Navbar -->
         </header>
@@ -60,13 +65,13 @@
                             <h6 class="text-uppercase fw-bold mb-4 w-100">
                                 <img
                                     src="~/assets/fontix-logo-transparent.png"
-                                    style="max-width: 100%; object-fit: contain;"
+                                    style="max-width: 100%; object-fit: contain; opacity: 55%"
                                     height="50"
                                     alt="Fontix Logo"
                                     loading="lazy"/>
                             </h6>
                             <p>
-                                Reserve your space, find your focus with Fontix.
+                                Fontix, your ticket to unforgettable experiences!
                             </p>
                         </div>
                         <!-- Grid column -->
@@ -127,10 +132,15 @@
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/footer.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <!-- MDB -->
 <script
     type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js">
+</script>
+<script>
+    AOS.init();
+</script>
 @* <script src="~/js/site.js" asp-append-version="true"></script> *@
 @await RenderSectionAsync("Scripts", required: false)
 </body>

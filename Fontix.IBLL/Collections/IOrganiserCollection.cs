@@ -2,11 +2,12 @@
 
 namespace Fontix.IBLL.Collections;
 
-public interface IOrganiserCollection
+public interface IOrganisationCollection
 {
-    Task<List<Organiser>> GetAllOrganisers();
-    Task<Organiser> GetOrganiser(int id);
-    Task InsertOrganiser(Organiser organiser);
-    Task UpdateOrganiser(Organiser organiser);
-    Task DeleteOrganiser(int id);
+    Task<List<Organisation>> GetAllOrganisations();
+    Task<List<Organisation>> GetUserOrganisations(int id);
+    Task<Organisation> GetOrganisation(int id);
+    Task InsertOrganisation(Organisation organisation);
+    Task UpdateOrganisation(Organisation organisation);
+    Task DeleteOrganisation(int id);
 }

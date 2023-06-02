@@ -3,7 +3,7 @@ namespace Fontix.Models;
 public class Event
 {
     public int Id { get; private set; }
-    public int OrganiserId { get; private set; }
+    public int OrganisationId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public DateTime DateTimeView { get; private set; }
@@ -14,10 +14,10 @@ public class Event
         Tickets = new List<Ticket>();
     }
 
-    public Event(int id, int organiserId, string name, string description, DateTime datetimeView, List<Ticket> tickets)
+    public Event(int id, int organisationId, string name, string description, DateTime datetimeView, List<Ticket> tickets)
     {
         Id = id;
-        OrganiserId = organiserId;
+        OrganisationId = organisationId;
         Name = name;
         Description = description;
         DateTimeView = datetimeView;

@@ -6,7 +6,7 @@ namespace Fontix.UI.Models;
 public class Event
 {
     public int Id { get; private set; }
-    public int OrganiserId { get; private set; }
+    public int OrganisationId { get; private set; }
     public string Name { get; private set; }
     public string? Description { get; private set; }
     public DateTime DateTimeView { get; private set; }
@@ -20,16 +20,16 @@ public class Event
     public Event(EventBindingModel model)
     {
         Id = model.Id;
-        OrganiserId = model.OrganiserId;
+        OrganisationId = model.OrganisationId;
         Name = model.Name;
         Description = model.Description;
         Tickets = new TicketCollection();
     }
 
-    public Event(int id, int organiserId, string name, string? description, DateTime datetimeView, List<Ticket> tickets)
+    public Event(int id, int organisationId, string name, string? description, DateTime datetimeView, List<Ticket> tickets)
     {
         Id = id;
-        OrganiserId = organiserId;
+        OrganisationId = organisationId;
         Name = name;
         Description = description;
         DateTimeView = datetimeView;
@@ -39,7 +39,7 @@ public class Event
     public Event(Fontix.Models.Event logicEvent)
     {
         Id = logicEvent.Id;
-        OrganiserId = logicEvent.OrganiserId;
+        OrganisationId = logicEvent.OrganisationId;
         Name = logicEvent.Name;
         Description = logicEvent.Description;
         Tickets = new TicketCollection(logicEvent.Tickets);
@@ -54,6 +54,6 @@ public class Event
             modelTickets.Add(ticket.ConvertToModel());
         }
 
-        return new Fontix.Models.Event(Id, OrganiserId, Name, Description, DateTimeView, modelTickets);
+        return new Fontix.Models.Event(Id, OrganisationId, Name, Description, DateTimeView, modelTickets);
     }
 }

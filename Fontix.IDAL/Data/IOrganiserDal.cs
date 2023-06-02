@@ -2,12 +2,13 @@ using Fontix.Models;
 
 namespace Fontix.IDAL.Data;
 
-public interface IOrganiserDal
+public interface IOrganisationDal
 {
-    Task DeleteOrganiser(int id);
-    Task<Organiser> GetOrganiser(int id);
-    Task<Organiser> GetOrganiserWithReference(int id);
-    Task<IEnumerable<Organiser>> GetOrganisers();
-    Task InsertOrganiser(Organiser organiser);
-    Task UpdateOrganiser(Organiser organiser);
+    Task DeleteOrganisation(int id);
+    Task<Organisation> GetOrganisation(int id);
+    Task<Organisation> GetOrganisationWithReference(int id);
+    Task<IEnumerable<Organisation>> GetOrganisations();
+    Task<IEnumerable<Organisation>> GetUserOrganisations(int id);
+    Task InsertOrganisation(Organisation organisation);
+    Task UpdateOrganisation(Organisation organisation);
 }

@@ -8,6 +8,7 @@ public interface IEventDal
     Task<Event> GetEvent(int id);
     Task<Event> GetEventWithTickets(int id);
     Task<IEnumerable<Event>> GetEvents();
+    Task<IEnumerable<Event>> GetOrganisationEvents(int id);
     Task InsertEvent(Event myEvent);
     Task UpdateEvent(Event myEvent);
 }

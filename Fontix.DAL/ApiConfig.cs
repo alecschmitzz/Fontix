@@ -13,12 +13,12 @@ public static class ApiConfig
         app.MapPut(pattern: "/Event", UpdateEvent);
         app.MapDelete(pattern: "/Event/{id}", DeleteEvent);
         
-        app.MapGet(pattern: "/Organiser", GetOrganisers);
-        app.MapGet(pattern: "/Organiser/{id}", GetOrganiser);
-        app.MapGet(pattern: "/Organiser/{id}/ref", GetOrganiserWithReference);
-        app.MapPost(pattern: "/Organiser", InsertOrganiser);
-        app.MapPut(pattern: "/Organiser", UpdateOrganiser);
-        app.MapDelete(pattern: "/Organiser/{id}", DeleteOrganiser);
+        app.MapGet(pattern: "/Organisation", GetOrganisations);
+        app.MapGet(pattern: "/Organisation/{id}", GetOrganisation);
+        app.MapGet(pattern: "/Organisation/{id}/ref", GetOrganisationWithReference);
+        app.MapPost(pattern: "/Organisation", InsertOrganisation);
+        app.MapPut(pattern: "/Organisation", UpdateOrganisation);
+        app.MapDelete(pattern: "/Organisation/{id}", DeleteOrganisation);
 
         app.MapGet(pattern: "/Ticket", GetTickets);
         app.MapGet(pattern: "/Ticket/{id}", GetTicket);
@@ -80,41 +80,41 @@ public static class ApiConfig
     
     
     
-    /* ORGANISERS */
-    private static async Task<IResult> GetOrganisers(IOrganiserDal data)
+    /* ORGANISATIONS */
+    private static async Task<IResult> GetOrganisations(IOrganisationDal data)
     {
-        return Results.Ok(await data.GetOrganisers());
+        return Results.Ok(await data.GetOrganisations());
     }
 
-    private static async Task<IResult> GetOrganiser(IOrganiserDal data, int id)
+    private static async Task<IResult> GetOrganisation(IOrganisationDal data, int id)
     {
-        var results = Results.Ok(await data.GetOrganiser(id));
+        var results = Results.Ok(await data.GetOrganisation(id));
         return results;
     } 
     
-    private static async Task<IResult> GetOrganiserWithReference(IOrganiserDal data, int id)
+    private static async Task<IResult> GetOrganisationWithReference(IOrganisationDal data, int id)
     {
-        var results = Results.Ok(await data.GetOrganiserWithReference(id));
+        var results = Results.Ok(await data.GetOrganisationWithReference(id));
         return results;
     }
 
-    private static async Task<IResult> InsertOrganiser(IOrganiserDal data, Models.Organiser organiser)
+    private static async Task<IResult> InsertOrganisation(IOrganisationDal data, Models.Organisation organisation)
     {
         //map data
-        await data.InsertOrganiser(organiser);
+        await data.InsertOrganisation(organisation);
         return Results.Ok();
     }
 
-    private static async Task<IResult> UpdateOrganiser(IOrganiserDal data, Models.Organiser organiser)
+    private static async Task<IResult> UpdateOrganisation(IOrganisationDal data, Models.Organisation organisation)
     {
         //map data
-        await data.UpdateOrganiser(organiser);
+        await data.UpdateOrganisation(organisation);
         return Results.Ok();
     }
 
-    private static async Task<IResult> DeleteOrganiser(IOrganiserDal data, int id)
+    private static async Task<IResult> DeleteOrganisation(IOrganisationDal data, int id)
     {
-        await data.DeleteOrganiser(id);
+        await data.DeleteOrganisation(id);
         return Results.Ok();
     }
     

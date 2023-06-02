@@ -5,65 +5,75 @@ using Fontix.IDAL.DbAccess;
 
 namespace Fontix.DAL.Data;
 
-public class OrganiserDal : IOrganiserDal
+public class OrganisationDal : IOrganisationDal
 {
     private readonly IDbAccess _db;
 
-    public OrganiserDal(IDbAccess db)
+    public OrganisationDal(IDbAccess db)
     {
         _db = db;
     }
 
-    public async Task<IEnumerable<Models.Organiser>> GetOrganisers()
+    public async Task<IEnumerable<Models.Organisation>> GetOrganisations()
     {
-        var organisers = await _db.LoadData<Organiser, dynamic>(
-            storedprocedure: "alecit_fontix.sp_Organisers_GetAll",
+        var organisations = await _db.LoadData<Organisation, dynamic>(
+            storedprocedure: "alecit_fontix.sp_Organisations_GetAll",
             new { });
 
-        //map data to Models.Organiser
-        return organisers.Select(r => r.ConvertToModel());
+        //map data to Models.Organisation
+        return organisations.Select(r => r.ConvertToModel());
     }
 
-    public async Task<IEnumerable<Models.Organiser>> GetOrganiserOrganisers(int id)
+    public async Task<IEnumerable<Models.Organisation>> GetUserOrganisations(int id)
     {
-        var organisers = await _db.LoadData<Organiser, dynamic>(
-            storedprocedure: "alecit_fontix.sp_Organisers_GetOrganiserOrganisers",
-            new { Iorganiser_id = id });
+        var organisations = await _db.LoadData<Organisation, dynamic>(
+            storedprocedure: "alecit_fontix.sp_Organisations_GetAllFromUser",
+            new { Iuser_id = id });
 
-        return organisers.Select(r => r.ConvertToModel());
+        //map data to Models.Organisation
+        return organisations.Select(r => r.ConvertToModel());
     }
 
-    public async Task<Models.Organiser> GetOrganiser(int id)
+    public async Task<IEnumerable<Models.Organisation>> GetOrganisationOrganisations(int id)
     {
-        var results = await _db.LoadData<Organiser, dynamic>(
-            storedprocedure: "alecit_fontix.sp_Organisers_GetOrganiser",
-            new { Iorganiser_id = id });
+        var organisations = await _db.LoadData<Organisation, dynamic>(
+            storedprocedure: "alecit_fontix.sp_Organisations_GetOrganisationOrganisations",
+            new { Iorganisation_id = id });
 
-        var myOrganiser = results.FirstOrDefault();
-
-        return myOrganiser.ConvertToModel();
+        return organisations.Select(r => r.ConvertToModel());
     }
 
-    public async Task<Models.Organiser> GetOrganiserWithReference(int id)
+    public async Task<Models.Organisation> GetOrganisation(int id)
     {
-        var lookup = new Dictionary<int, Organiser>();
+        var results = await _db.LoadData<Organisation, dynamic>(
+            storedprocedure: "alecit_fontix.sp_Organisations_GetOrganisation",
+            new { Iorganisation_id = id });
 
-        var result = await _db.LoadDataWithJoin<Organiser, Event, Organiser, dynamic>(
-            "alecit_seathub.sp_Organisers_GetOrganiserWithReference",
-            new { Iorganiser_id = id },
-            (organiser, myEvent) =>
+        var myOrganisation = results.FirstOrDefault();
+
+        return myOrganisation.ConvertToModel();
+    }
+
+    public async Task<Models.Organisation> GetOrganisationWithReference(int id)
+    {
+        var lookup = new Dictionary<int, Organisation>();
+
+        var result = await _db.LoadDataWithJoin<Organisation, Event, Organisation, dynamic>(
+            "alecit_seathub.sp_Organisations_GetOrganisationWithReference",
+            new { Iorganisation_id = id },
+            (organisation, myEvent) =>
             {
-                // Check if the organiser already exists in the lookup
-                if (!lookup.TryGetValue(organiser.id, out Organiser o))
+                // Check if the organisation already exists in the lookup
+                if (!lookup.TryGetValue(organisation.id, out Organisation o))
                 {
-                    o = organiser;
+                    o = organisation;
                     lookup.Add(o.id, o);
                 }
 
                 // Set the event ID using the alias
                 myEvent.SetAlias();
 
-                // Add the event to the organiser's list of events if it doesn't already exist
+                // Add the event to the organisation's list of events if it doesn't already exist
                 if (o.Events.Get().All(r => r.id != myEvent.id))
                 {
                     o.Events.Add(myEvent);
@@ -78,22 +88,23 @@ public class OrganiserDal : IOrganiserDal
         return result.ConvertToModel();
     }
 
-    public Task InsertOrganiser(Models.Organiser organiser) => _db.Savedata(
-        storedprocedure: "alecit_fontix.sp_Organisers_InsertOrganiser",
+    public Task InsertOrganisation(Models.Organisation organisation) => _db.Savedata(
+        storedprocedure: "alecit_fontix.sp_Organisations_InsertOrganisation",
         parameters: new
         {
-            Iname = organiser.Name,
+            Iname = organisation.Name,
         });
 
 
-    public Task UpdateOrganiser(Models.Organiser organiser) => _db.Savedata(
-        storedprocedure: "alecit_fontix.sp_Organisers_UpdateOrganiser",
+    public Task UpdateOrganisation(Models.Organisation organisation) => _db.Savedata(
+        storedprocedure: "alecit_fontix.sp_Organisations_UpdateOrganisation",
         new
         {
-            Iname = organiser.Name,
-            Iorganiser_id = organiser.Id
+            Iname = organisation.Name,
+            Iorganisation_id = organisation.Id
         });
 
-    public Task DeleteOrganiser(int id) =>
-        _db.Savedata(storedprocedure: "alecit_fontix.sp_Organisers_DeleteOrganiser", new { Iorganiser_id = id });
+    public Task DeleteOrganisation(int id) =>
+        _db.Savedata(storedprocedure: "alecit_fontix.sp_Organisations_DeleteOrganisation",
+            new { Iorganisation_id = id });
 }

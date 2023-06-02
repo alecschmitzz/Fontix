@@ -27,7 +27,7 @@ public class EventCollection
                     ticket.DatetimeEnd, ticket.DatetimeView, ticket.Amount));
             }
 
-            Add(new Event(myEvent.Id, myEvent.OrganiserId, myEvent.Name, myEvent.Description, myEvent.DateTimeView, uiTickets));
+            Add(new Event(myEvent.Id, myEvent.OrganisationId, myEvent.Name, myEvent.Description, myEvent.DateTimeView, uiTickets));
         }
     }
 
