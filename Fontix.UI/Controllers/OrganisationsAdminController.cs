@@ -6,13 +6,13 @@ using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
 
-public class OrganisationsController : Controller
+public class OrganisationsAdminController : Controller
 {
     private readonly IOrganisationCollection _organisationCollection;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public OrganisationsController(IOrganisationCollection organisationCollection, ISessionAccess sessionAccess)
+    public OrganisationsAdminController(IOrganisationCollection organisationCollection, ISessionAccess sessionAccess)
     {
         _organisationCollection = organisationCollection;
         _sessionAccess = sessionAccess;
@@ -50,11 +50,11 @@ public class OrganisationsController : Controller
         }
 
 
-        return RedirectToAction("ManageOrganisations");
+        return RedirectToAction("Manage");
     }
 
     //READ EVENTS
-    public async Task<IActionResult> ManageOrganisations()
+    public async Task<IActionResult> Manage()
     {
         //TODO: FIX HARDCODED
         var logicOrganisations = await _organisationCollection.GetUserOrganisations(1);
@@ -80,7 +80,7 @@ public class OrganisationsController : Controller
             Console.WriteLine(e);
         }
 
-        return RedirectToAction("ManageOrganisations");
+        return RedirectToAction("Manage");
     }
 
 
@@ -103,6 +103,6 @@ public class OrganisationsController : Controller
             Console.WriteLine(e);
         }
 
-        return RedirectToAction("ManageOrganisations");
+        return RedirectToAction("Manage");
     }
 }

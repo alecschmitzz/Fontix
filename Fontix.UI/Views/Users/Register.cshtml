@@ -1,0 +1,50 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Register User";
+    var errorMessage = ViewBag.ErrorMessage;
+}
+
+<h2 class="text-fontix-purple fw-bold text-center small">user</h2>
+<h1 class="text-fontix-blue fw-bold text-center">register</h1>
+@using (Html.BeginForm("Register", "Users", FormMethod.Post))
+{
+    <div class="mx-auto mt-5" style="width: 22rem;">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" name="NameFirst" class="form-control" value="@((Model != null) ? Model.NameFirst : string.Empty)"/>
+                    <label class="form-label">First name</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" name="NameLast" class="form-control" value="@((Model != null) ? Model.NameLast : string.Empty)"/>
+                    <label class="form-label">Last name</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input name="Email" type="email" class="form-control" value="@((Model != null) ? Model.Email : string.Empty)"/>
+            <label class="form-label">Email address</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input name="Password" type="password" class="form-control"/>
+            <label class="form-label">Password</label>
+        </div>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </div>
+}

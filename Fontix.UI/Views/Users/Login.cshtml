@@ -1,0 +1,36 @@
+@model dynamic
+
+
+
+@{
+    ViewData["Title"] = "Login";
+    var successMessage = ViewBag.SuccessMessage;
+}
+
+<h2 class="text-fontix-purple fw-bold text-center small">user</h2>
+<h1 class="text-fontix-blue fw-bold text-center">login</h1>
+<div class="mx-auto mt-5" style="width: 22rem;">
+    @using (Html.BeginForm("Login", "Users", FormMethod.Post))
+    {
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="alert alert-success" role="alert">
+                @successMessage
+            </div>
+        }
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input name="Email" type="email" class="form-control"/>
+            <label class="form-label">Email address</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input name="Password" type="password" class="form-control"/>
+            <label class="form-label">Password</label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    }
+</div>

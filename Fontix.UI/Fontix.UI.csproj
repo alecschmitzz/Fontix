@@ -24,4 +24,9 @@
       <Folder Include="wwwroot\assets" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Admin\Events\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Admin\Events\Manage.cshtml" />
+    </ItemGroup>
+
 </Project>

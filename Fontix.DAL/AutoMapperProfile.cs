@@ -47,19 +47,19 @@ public class AutoMapperDALProfile : Profile
 
 
         /* USER */
-        CreateMap<User, Models.User>()
-            .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
-            .ForMember(dest => dest.NameFirst, act => act.MapFrom(src => src.name_first))
-            .ForMember(dest => dest.NameLast, act => act.MapFrom(src => src.name_last))
-            .ForMember(dest => dest.UserPwd, act => act.MapFrom(src => src.userpwd))
-            .ForMember(dest => dest.Email, act => act.MapFrom(src => src.email))
-            .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.created_at))
-            .ForMember(dest => dest.UpdatedAt, act => act.MapFrom(src => src.updated_at));
-
-        CreateMap<Models.User, User>()
-            .ForMember(dest => dest.name_first, act => act.MapFrom(src => src.NameFirst))
-            .ForMember(dest => dest.name_last, act => act.MapFrom(src => src.NameLast))
-            .ForMember(dest => dest.userpwd, act => act.MapFrom(src => src.UserPwd))
-            .ForMember(dest => dest.email, act => act.MapFrom(src => src.Email));
+        // CreateMap<User, Models.User>()
+        //     .ForMember(dest => dest.Id, act => act.MapFrom(src => src.id))
+        //     .ForMember(dest => dest.NameFirst, act => act.MapFrom(src => src.name_first))
+        //     .ForMember(dest => dest.NameLast, act => act.MapFrom(src => src.name_last))
+        //     .ForMember(dest => dest.UserPwd, act => act.MapFrom(src => src.user_pwd))
+        //     .ForMember(dest => dest.Email, act => act.MapFrom(src => src.email))
+        //     .ForMember(dest => dest.CreatedAt, act => act.MapFrom(src => src.created_at))
+        //     .ForMember(dest => dest.UpdatedAt, act => act.MapFrom(src => src.updated_at));
+        //
+        // CreateMap<Models.User, User>()
+        //     .ForMember(dest => dest.name_first, act => act.MapFrom(src => src.NameFirst))
+        //     .ForMember(dest => dest.name_last, act => act.MapFrom(src => src.NameLast))
+        //     .ForMember(dest => dest.user_pwd, act => act.MapFrom(src => src.UserPwd))
+        //     .ForMember(dest => dest.email, act => act.MapFrom(src => src.Email));
     }
 }

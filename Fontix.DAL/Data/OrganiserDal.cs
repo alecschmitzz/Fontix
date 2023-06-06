@@ -59,7 +59,7 @@ public class OrganisationDal : IOrganisationDal
         var lookup = new Dictionary<int, Organisation>();
 
         var result = await _db.LoadDataWithJoin<Organisation, Event, Organisation, dynamic>(
-            "alecit_seathub.sp_Organisations_GetOrganisationWithReference",
+            "alecit_fontix.sp_Organisations_GetOrganisationWithReference",
             new { Iorganisation_id = id },
             (organisation, myEvent) =>
             {

@@ -8,37 +8,36 @@ namespace Fontix.DAL.Data;
 public class UserDal : IUserDal
 {
     private readonly IDbAccess _db;
-    private readonly IMapper _mapper;
 
-    public UserDal(IDbAccess db, IMapper mapper)
+    public UserDal(IDbAccess db)
     {
         _db = db;
-        _mapper = mapper;
     }
 
     public async Task<IEnumerable<Models.User>> GetUsers()
     {
-        var users = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_seathub.sp_Users_GetAll", new { });
+        var users = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_fontix.sp_Users_GetAll", new { });
 
-        return users.Select(u => _mapper.Map<Models.User>(u));
+        //map data to Models.Event
+        return users.Select(r => r.ConvertToModel());
     }
 
-    public async Task<Models.User> GetUserByEmail(string email)
+    public async Task<Models.User?> GetUserByEmail(string email)
     {
-        var results = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_seathub.sp_Users_GetUserByEmail",
-            new { UserEmail = email });
+        var results = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_fontix.sp_Users_GetUserByEmail",
+            new { Iemail = email });
 
         var user = results.FirstOrDefault();
-        return _mapper.Map<Models.User>(user);
+        return user == null ? null : user.ConvertToModel();
     }
     
-    public async Task<Models.User> GetUser(int id)
+    public async Task<Models.User?> GetUser(int id)
     {
-        var results = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_seathub.sp_Users_GetUser",
-            new { UserId = id });
+        var results = await _db.LoadData<User, dynamic>(storedprocedure: "alecit_fontix.sp_Users_GetUser",
+            new { Iuser_id = id });
 
         var user = results.FirstOrDefault();
-        return _mapper.Map<Models.User>(user);
+        return user == null ? null : user.ConvertToModel();
     }
 
     // public async Task<Models.User> GetUserWithReference(int id)
@@ -46,7 +45,7 @@ public class UserDal : IUserDal
     //     var lookup = new Dictionary<int, User>();
     //
     //     var results = await _db.LoadDataWithJoin<User, Reservation, User, dynamic>(
-    //         "alecit_seathub.sp_Users_GetUserWithReference",
+    //         "alecit_fontix.sp_Users_GetUserWithReference",
     //         new { Iuser_id = id },
     //         (user, reservation) =>
     //         {
@@ -76,32 +75,32 @@ public class UserDal : IUserDal
     //     return _mapper.Map<Models.User>(results);
     // }
 
-    public Task InsertUser(Models.User user) => _db.Savedata(storedprocedure: "alecit_seathub.sp_Users_InsertUser",
+    public Task InsertUser(Models.User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_InsertUser",
         parameters: new
         {
             Iname_first = user.NameFirst,
             Iname_last = user.NameLast,
-            Iuserpwd = user.UserPwd,
+            Iuser_pwd = user.UserPwd,
             Iemail = user.Email
         });
 
 
-    public Task UpdateUser(Models.User user) => _db.Savedata(storedprocedure: "alecit_seathub.sp_Users_UpdateUser",
+    public Task UpdateUser(Models.User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_UpdateUser",
         new
         {
-            UserId = user.Id,
+            Iuser_id = user.Id,
             Iname_first = user.NameFirst,
             Iname_last = user.NameLast,
             Iemail = user.Email,
         });
 
-    public Task UpdatePassword(Models.User user) => _db.Savedata(storedprocedure: "alecit_seathub.sp_Users_UpdatePassword",
+    public Task UpdatePassword(Models.User user) => _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_UpdatePassword",
         new
         {
-            UserId = user.Id,
-            Iuserpwd = user.UserPwd,
+            Iuser_id = user.Id,
+            Iuser_pwd = user.UserPwd,
         });
 
     public Task DeleteUser(int id) =>
-        _db.Savedata(storedprocedure: "alecit_seathub.sp_Users_DeleteUser", new { Iuserid = id });
+        _db.Savedata(storedprocedure: "alecit_fontix.sp_Users_DeleteUser", new { Iuserid = id });
 }

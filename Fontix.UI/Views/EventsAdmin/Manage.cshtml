@@ -8,7 +8,7 @@
 
 @* <h2 class="text-fontix-purple fw-bold text-center small">organisation</h2> *@
 <div class="d-flex justify-content-center" style="padding-right: 13px;">
-    @using (Html.BeginForm("ManageEvents", "Events", null, FormMethod.Post))
+    @using (Html.BeginForm("Manage", "EventsAdmin", null, FormMethod.Post))
     {
         <!-- OrganisationId input -->
         <div class="select-wrapper my-auto">
@@ -36,7 +36,7 @@
         </button>
 
         <!-- ADD MODAL -->
-        @using (Html.BeginForm("Create", "Events", FormMethod.Post))
+        @using (Html.BeginForm("Create", "EventsAdmin", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
@@ -63,6 +63,12 @@
                             <div class="form-outline mb-4">
                                 <input type="text" name="Name" class="form-control"/>
                                 <label class="form-label">Name</label>
+                            </div>
+
+                            <!-- Venue input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" name="Venue" class="form-control"/>
+                                <label class="form-label">Venue</label>
                             </div>
 
                             <!-- Description input -->
@@ -116,7 +122,7 @@
                 <div class="d-flex align-items-center justify-content-end">
                     @if (1 == 1)
                     {
-                        <a type="button" class="btn btn-outline-primary px-2 py-1 ms-2" href="@Url.RouteUrl(new { action = "Details", controller = "Events", id = item.Id })">
+                        <a type="button" class="btn btn-outline-primary px-2 py-1 ms-2" href="@Url.RouteUrl(new { action = "Details", controller = "EventsAdmin", id = item.Id })">
                             <span class="d-none d-md-inline">Details&nbsp;</span>
                             <i class="fas fa-bars"></i>
                         </a>
@@ -126,7 +132,7 @@
                         </button>
 
                         /* DELETE MODAL */
-                        @using (Html.BeginForm("Delete", "Events", new { id = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Delete", "EventsAdmin", new { id = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
 

@@ -4,18 +4,18 @@ namespace Fontix.UI.Collections;
 
 public class TicketCollection
 {
-    private readonly List<Ticket> _tickets = new List<Ticket>();
+    private List<Ticket> _tickets = new List<Ticket>();
 
     public TicketCollection()
     {
     }
 
-    public TicketCollection(List<Ticket> tickets)
+    public TicketCollection(IReadOnlyList<Ticket> tickets)
     {
-        _tickets = tickets;
+        _tickets = tickets.ToList();
     }
 
-    public TicketCollection(List<Fontix.Models.Ticket> tickets)
+    public TicketCollection(IReadOnlyList<Fontix.Models.Ticket> tickets)
     {
         foreach (var ticket in tickets)
         {

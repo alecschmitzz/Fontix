@@ -50,7 +50,7 @@ public class TicketsController : Controller
             Console.WriteLine(e);
         }
 
-        return RedirectToAction("Details", "Events", new { id = uiTicket.EventId });
+        return RedirectToAction("Details", "EventsAdmin", new { id = uiTicket.EventId });
     }
 
     //READ TICKETS
@@ -107,7 +107,7 @@ public class TicketsController : Controller
         }
 
 
-        return RedirectToAction("Details", "Events", new { id = uiTicket.EventId });
+        return RedirectToAction("Details", "EventsAdmin", new { id = uiTicket.EventId });
     }
 
     //DELETE ticket
@@ -128,6 +128,6 @@ public class TicketsController : Controller
             Console.WriteLine(e);
         }
 
-        return RedirectToAction("Details", "Events", new { id = eventId });
+        return RedirectToAction("Details", "EventsAdmin", new { id = eventId });
     }
 }

@@ -1,0 +1,62 @@
+@model Tuple<List<Event>, List<Organisation>, int>
+
+
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h2 class="text-fontix-purple fw-bold text-center small">events</h2>
+<h1 class="text-fontix-blue fw-bold text-center mb-5">Your ticket to unforgettable experiences.</h1>
+
+<div class="d-flex justify-content-center" style="padding-right: 13px;">
+    @using (Html.BeginForm("Manage", "EventsAdmin", null, FormMethod.Post))
+    {
+        <!-- OrganisationId input -->
+        <div class="select-wrapper my-auto">
+            <select class="select select-small" name="Id" onchange="this.form.submit()">
+                @foreach (var item in Model.Item2)
+                {
+                    <option value="@item.Id" selected="@(Model.Item3 == item.Id)">@item.Name</option>
+                }
+            </select>
+        </div>
+    }
+
+</div>
+
+<table class="table text-fontix-blue align-middle table-alternate-fontix-blue-light mt-5">
+    <tbody>
+    @foreach (var item in Model.Item1)
+    {
+        <tr>
+            <td class="text-center">
+                <h2>@item.DateTimeView.ToString("MMM")</h2>
+                <h2>@item.DateTimeView.ToString("dd")</h2>
+            </td>
+            <td class="d-none d-md-table-cell fw-bold text-fontix-blue pt-4">
+                <h6 class="fw-light">@item.DateTimeView.ToString("dddd, hh:mm")</h6>
+                <h1 class="fw-bold">@Html.DisplayFor(modelItem => item.Name)</h1>
+                <h6 class="fw-light">@Html.DisplayFor(modelItem => item.Venue)</h6>
+            </td>
+            <td class="text-end">
+                <div class="d-flex align-items-center justify-content-end">
+                    @if (1 == 1)
+                    {
+                        <a type="button" class="btn btn-tertiary px-2 py-1 me-3" href="@Url.RouteUrl(new { action = "Details", controller = "EventsAdmin", id = item.Id })">
+                            <span class="d-none d-md-inline">Meer info&nbsp;</span>
+                        </a>
+
+                        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addModal">
+                            <span>
+                                <strong>Tickets</strong>
+                            </span>
+                        </button>
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+
+</table>

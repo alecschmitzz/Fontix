@@ -8,6 +8,7 @@ public class Event
     public int Id { get; private set; }
     public int OrganisationId { get; private set; }
     public string Name { get; private set; }
+    public string Venue { get; private set; }
     public string? Description { get; private set; }
     public DateTime DateTimeView { get; private set; }
     public TicketCollection Tickets { get; private set; }
@@ -22,15 +23,18 @@ public class Event
         Id = model.Id;
         OrganisationId = model.OrganisationId;
         Name = model.Name;
+        Venue = model.Venue;
         Description = model.Description;
         Tickets = new TicketCollection();
     }
 
-    public Event(int id, int organisationId, string name, string? description, DateTime datetimeView, List<Ticket> tickets)
+    public Event(int id, int organisationId, string name, string venue, string? description, DateTime datetimeView,
+        List<Ticket> tickets)
     {
         Id = id;
         OrganisationId = organisationId;
         Name = name;
+        Venue = venue;
         Description = description;
         DateTimeView = datetimeView;
         Tickets = new TicketCollection(tickets);
@@ -41,6 +45,7 @@ public class Event
         Id = logicEvent.Id;
         OrganisationId = logicEvent.OrganisationId;
         Name = logicEvent.Name;
+        Venue = logicEvent.Venue;
         Description = logicEvent.Description;
         Tickets = new TicketCollection(logicEvent.Tickets);
     }
@@ -54,6 +59,6 @@ public class Event
             modelTickets.Add(ticket.ConvertToModel());
         }
 
-        return new Fontix.Models.Event(Id, OrganisationId, Name, Description, DateTimeView, modelTickets);
+        return new Fontix.Models.Event(Id, OrganisationId, Name, Venue, Description, DateTimeView, modelTickets);
     }
 }

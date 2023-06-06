@@ -17,7 +17,7 @@
         </button>
 
         <!-- ADD MODAL -->
-        @using (Html.BeginForm("Create", "Organisations", FormMethod.Post))
+        @using (Html.BeginForm("Create", "OrganisationsAdmin", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
@@ -68,7 +68,7 @@
                 <div class="d-flex align-items-center justify-content-end">
                     @if (1 == 1)
                     {
-                        @using (Html.BeginForm("ManageEvents", "Events", FormMethod.Post))
+                        @using (Html.BeginForm("Manage", "EventsAdmin", FormMethod.Post))
                         {
                             @Html.Hidden("id", item.Id)
                             <button type="submit" class="btn btn-outline-primary px-2 py-1 ms-2">
@@ -85,7 +85,7 @@
                         </button>
 
                         <!-- EDIT EVENT MODAL -->
-                        @using (Html.BeginForm("Edit", "Organisations", new { id = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Edit", "OrganisationsAdmin", new { id = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                             <div class="modal fade" id="editOrganisationModal-@item.Id" tabindex="-1" aria-hidden="true">
@@ -113,7 +113,7 @@
                         }
 
                         /* DELETE MODAL */
-                        @using (Html.BeginForm("Delete", "Organisations", new { id = item.Id }, FormMethod.Post))
+                        @using (Html.BeginForm("Delete", "OrganisationsAdmin", new { id = item.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
 
