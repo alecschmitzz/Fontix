@@ -49,7 +49,7 @@ public class UsersController : Controller
         // Authentication failed
         // Display an error message
         ViewBag.ErrorMessage = "Invalid username or password";
-        return View();
+        return View(bindingModel);
     }
 
     [HttpPost]
