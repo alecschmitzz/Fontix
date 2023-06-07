@@ -11,6 +11,7 @@ public class Ticket
     private DateTime datetime_start { get; set; }
     private DateTime datetime_end { get; set; }
     private DateTime datetime_view { get; set; }
+    private DateTime? alias_datetime_view { get; set; }
     private int amount { get; set; }
 
     public Ticket()
@@ -38,5 +39,6 @@ public class Ticket
     {
         id = (int)alias_ticket_id;
         name = alias_ticket_name;
+        datetime_view = (DateTime)alias_datetime_view;
     }
 }

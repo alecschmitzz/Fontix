@@ -1,8 +1,6 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Fontix.IBLL.Collections;
 using Fontix.UI.Models;
-using Fontix.UI.Models.BindingModels;
 using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;

@@ -18,13 +18,25 @@ public class Event
         Tickets = new TicketCollection(); // Initialize the Tickets property
     }
 
-    public Event(EventBindingModel model)
+    public Event(CreateEventBindingModel model)
     {
-        Id = model.Id;
+        Id = 0;
         OrganisationId = model.OrganisationId;
         Name = model.Name;
         Venue = model.Venue;
         Description = model.Description;
+        DateTimeView = model.DateTimeView;
+        Tickets = new TicketCollection();
+    }
+
+    public Event(EditEventBindingModel model)
+    {
+        Id = model.Id;
+        OrganisationId = 0;
+        Name = model.Name;
+        Venue = model.Venue;
+        Description = model.Description;
+        DateTimeView = model.DateTimeView;
         Tickets = new TicketCollection();
     }
 
@@ -47,6 +59,7 @@ public class Event
         Name = logicEvent.Name;
         Venue = logicEvent.Venue;
         Description = logicEvent.Description;
+        DateTimeView = logicEvent.DateTimeView;
         Tickets = new TicketCollection(logicEvent.Tickets);
     }
 

@@ -30,17 +30,27 @@ public class OrganisationCollection : IOrganisationCollection
         return await _data.GetOrganisation(id);
     }
 
-    public async Task<Organisation> GetOrganisationWithReference(int id)
+    public async Task<Organisation> GetOrganisationWithUsers(int id)
     {
-        return await _data.GetOrganisationWithReference(id);
+        return await _data.GetOrganisationWithUsers(id);
     }
 
-    public async Task InsertOrganisation(Organisation myOrganisation)
+    public async Task AddMember(int organisationId, int userId)
+    {
+        await _data.AddMember(organisationId, userId);
+    }
+    
+    public async Task RemoveMember(int organisationId, int userId)
+    {
+        await _data.RemoveMember(organisationId, userId);
+    }
+
+    public async Task InsertOrganisation(Organisation myOrganisation, int userId)
     {
         // var workspaceId = organisation.WorkspaceId ?? throw new InvalidInputException("workspaceId is empty");
         // var userId = organisation.UserId ?? throw new InvalidInputException("userId is empty");
 
-        await _data.InsertOrganisation(myOrganisation);
+        await _data.InsertOrganisation(myOrganisation, userId);
     }
 
     public async Task UpdateOrganisation(Organisation myOrganisation)

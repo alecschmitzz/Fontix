@@ -3,6 +3,7 @@ namespace Fontix.DAL.Entities;
 public class User
 {
     public int id { get; private set; }
+    public int? alias_user_id { get; private set; }
     public string name_first { get; private set; }
     public string name_last { get; private set; }
     public string user_pwd { get; private set; }
@@ -22,6 +23,11 @@ public class User
         this.name_last = nameLast;
         this.user_pwd = userPwd;
         this.email = email;
+    }
+
+    public void SetAlias()
+    {
+        id = (int)alias_user_id;
     }
 
     public Fontix.Models.User ConvertToModel()

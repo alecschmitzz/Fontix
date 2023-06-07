@@ -38,8 +38,20 @@ public class Ticket
         DateTimeView = ticket.DatetimeView;
         Amount = ticket.Amount;
     }
+    
+    public Ticket(CreateTicketBindingModel bindingModel)
+    {
+        Id = 0;
+        EventId = bindingModel.EventId;
+        Name = bindingModel.Name;
+        Price = bindingModel.Price;
+        DateTimeStart = bindingModel.DateTimeStart;
+        DateTimeEnd = bindingModel.DateTimeEnd;
+        DateTimeView = bindingModel.DateTimeView;
+        Amount = bindingModel.Amount;
+    }
 
-    public Ticket(TicketBindingModel bindingModel)
+    public Ticket(EditTicketBindingModel bindingModel)
     {
         Id = bindingModel.Id;
         EventId = bindingModel.EventId;

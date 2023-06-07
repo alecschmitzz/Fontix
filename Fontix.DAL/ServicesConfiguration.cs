@@ -9,7 +9,6 @@ public static class ServicesConfiguration
 {
     public static void AddDALServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(Program).Assembly);
         services.AddSingleton<DapperContext>();
         services.AddSingleton<IDbAccess, DbAccess.DbAccess>();
         services.AddSingleton<IEventDal, EventDal>();

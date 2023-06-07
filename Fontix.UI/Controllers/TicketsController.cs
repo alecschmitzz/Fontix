@@ -5,41 +5,74 @@ using Fontix.UI.Collections;
 using Fontix.UI.Models;
 using Fontix.UI.Models.BindingModels;
 using Fontix.UI.Utils;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Fontix.UI.Controllers;
 
 public class TicketsController : Controller
 {
     private readonly ITicketCollection _ticketCollection;
+    private readonly IEventCollection _eventCollection;
+    private readonly IOrganisationCollection _organisationCollection;
     private readonly ISessionAccess _sessionAccess;
 
 
-    public TicketsController(ITicketCollection ticketCollection, ISessionAccess sessionAccess)
+    public TicketsController(ITicketCollection ticketCollection, IEventCollection eventCollection,
+        IOrganisationCollection organisationCollection,
+        ISessionAccess sessionAccess)
     {
         _ticketCollection = ticketCollection;
+        _eventCollection = eventCollection;
+        _organisationCollection = organisationCollection;
         _sessionAccess = sessionAccess;
     }
 
     //CREATE TICKET
     [HttpPost]
-    public async Task<IActionResult> Create(TicketBindingModel bindingModel)
+    public async Task<IActionResult> Create(CreateTicketBindingModel bindingModel)
     {
-        var uiTicket = new Ticket(bindingModel);
+        var loggedInUserId = _sessionAccess.GetUserId();
 
-        if (uiTicket == null)
+        ViewBag.ErrorMessage = TempData["ErrorMessage"]?.ToString() ?? string.Empty;
+        ViewBag.LoggedInUserId = loggedInUserId;
+
+        if (loggedInUserId == 0)
         {
-            throw new Exception("empty values");
+            TempData["ErrorMessage"] = "User not logged in";
+            return RedirectToAction("Login", "Users");
         }
 
-        // check if user is part of companyId
-        // int userId = _sessionAccess.GetUserId();
-        //
-        // if (userId == 0)
-        // {
-        //     return RedirectToAction("Login", "User");
-        // }
-        //
-        // uiTicket.OrganisationId = userId;
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = string.Join("<br>", ModelState.Values
+                .SelectMany(x => x.Errors)
+                .Select(x => x.ErrorMessage));
+
+            // Handle validation errors
+            return RedirectToAction("Details", "EventsAdmin", new { id = bindingModel.EventId });
+        }
+
+        if (bindingModel.EventId == 0)
+        {
+            TempData["ErrorMessage"] = "No event set";
+            return RedirectToAction("Manage", "OrganisationsAdmin");
+        }
+
+        var logicEvent = await _eventCollection.GetEvent(bindingModel.EventId);
+
+        var logicOrganisation = await _organisationCollection.GetOrganisationWithUsers(logicEvent.OrganisationId);
+
+        Boolean userInOrganisation = logicOrganisation.Users.Any(user => user.Id == loggedInUserId);
+
+        if (!userInOrganisation)
+        {
+            TempData["ErrorMessage"] = "Logged in user is not part of organisation";
+            // Handle errors
+            return RedirectToAction("Manage", "OrganisationsAdmin");
+        }
+
+
+        var uiTicket = new Ticket(bindingModel);
 
         try
         {
@@ -50,7 +83,7 @@ public class TicketsController : Controller
             Console.WriteLine(e);
         }
 
-        return RedirectToAction("Details", "EventsAdmin", new { id = uiTicket.EventId });
+        return RedirectToAction("Details", "EventsAdmin", new { id = bindingModel.EventId });
     }
 
     //READ TICKETS
@@ -88,13 +121,49 @@ public class TicketsController : Controller
 
     //UPDATE TICKET
     [HttpPost]
-    public async Task<IActionResult> Edit(TicketBindingModel bindingModel)
+    public async Task<IActionResult> Edit(EditTicketBindingModel bindingModel)
     {
-        var uiTicket = new Ticket(bindingModel);
-        if (uiTicket == null)
+        var loggedInUserId = _sessionAccess.GetUserId();
+
+        ViewBag.ErrorMessage = TempData["ErrorMessage"]?.ToString() ?? string.Empty;
+        ViewBag.LoggedInUserId = loggedInUserId;
+
+        if (loggedInUserId == 0)
         {
-            throw new Exception("empty values");
+            TempData["ErrorMessage"] = "User not logged in";
+            return RedirectToAction("Login", "Users");
         }
+
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = string.Join("<br>", ModelState.Values
+                .SelectMany(x => x.Errors)
+                .Select(x => x.ErrorMessage));
+
+            // Handle validation errors
+            return RedirectToAction("Details", "EventsAdmin", new { id = bindingModel.EventId });
+        }
+
+        if (bindingModel.EventId == 0)
+        {
+            TempData["ErrorMessage"] = "No event set";
+            return RedirectToAction("Manage", "OrganisationsAdmin");
+        }
+
+        var logicEvent = await _eventCollection.GetEvent(bindingModel.EventId);
+
+        var logicOrganisation = await _organisationCollection.GetOrganisationWithUsers(logicEvent.OrganisationId);
+
+        Boolean userInOrganisation = logicOrganisation.Users.Any(user => user.Id == loggedInUserId);
+
+        if (!userInOrganisation)
+        {
+            TempData["ErrorMessage"] = "Logged in user is not part of organisation";
+            // Handle errors
+            return RedirectToAction("Manage", "OrganisationsAdmin");
+        }
+
+        var uiTicket = new Ticket(bindingModel);
 
         var logicTicket = uiTicket.ConvertToModel();
         try
@@ -103,7 +172,8 @@ public class TicketsController : Controller
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            TempData["ErrorMessage"] = e.Message;
+            return RedirectToAction("Details", "EventsAdmin", new { id = bindingModel.EventId });
         }
 
 

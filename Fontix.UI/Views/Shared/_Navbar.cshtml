@@ -1,3 +1,4 @@
+@inject Fontix.UI.Utils.ISessionAccess SessionAccess
 <div class="fontix-nav collapsed" style="z-index: 1000;">
     <nav class="collapsed">
         <div class="burger collapsed d-flex align-items-center">
@@ -13,18 +14,35 @@
         </div>
         <div class="menu">
             <ul>
-                @*     $1$ LOGO #1# *@
-                @* </li> *@
                 <li data-aos="fade-up" data-aos-delay="300">
-                    <a href="/EventsAdmin/Manage">
-                        <span>Events</span>
+                    <a href="@Url.Action("Index", "Events")">
+                        <span>events</span>
                     </a>
                 </li>
-                <li data-aos="fade-up" data-aos-delay="450">
-                    <a href="/OrganisationsAdmin/Manage">
-                        <span>Organisations</span>
-                    </a>
-                </li>
+                @if (SessionAccess.GetUserId() > 0)
+                {
+                    <li class="text-fontix-purple mt-5" style="font-size: 1rem;">
+                        admin
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="300">
+                        <a href="@Url.Action("Manage", "EventsAdmin")">
+                            <span>events</span>
+                        </a>
+                    </li>
+                    <li data-aos="fade-up" data-aos-delay="450">
+                        <a href="@Url.Action("Manage", "OrganisationsAdmin")">
+                            <span>organisations</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li data-aos="fade-up" data-aos-delay="300">
+                        <a href="@Url.Action("Login", "Users")">
+                            <span>Login</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
         <div class="menu-bg"></div>

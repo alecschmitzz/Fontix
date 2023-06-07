@@ -1,21 +1,24 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Fontix.UI.Models;
+using Fontix.UI.Utils;
 
 namespace Fontix.UI.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ISessionAccess _sessionAccess;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ISessionAccess sessionAccess)
     {
         _logger = logger;
+        _sessionAccess = sessionAccess;
     }
 
     public IActionResult Index()
     {
-        return View();
+        return View(_sessionAccess.GetUserId());
     }
 
     public IActionResult Privacy()

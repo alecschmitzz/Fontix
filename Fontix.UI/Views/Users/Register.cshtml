@@ -40,11 +40,15 @@
         @if (!string.IsNullOrEmpty(errorMessage))
         {
             <div class="alert alert-danger" role="alert">
-                @errorMessage
+               @Html.Raw(errorMessage)
             </div>
         }
 
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </div>
+    <!-- Login -->
+    <div class="text-center mt-4">
+        <p>Already registered? <a href="@Url.Action("Login", "Users")">Login</a></p>
     </div>
 }

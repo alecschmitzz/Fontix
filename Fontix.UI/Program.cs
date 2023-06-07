@@ -15,7 +15,6 @@ builder.Services.AddScoped<ISessionAccess>(service => new SessionAccess(new Http
 // builder.Services.AddSingleton<IConfiguration>();
 builder.Services.AddDALServices();
 builder.Services.AddBLLServices();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

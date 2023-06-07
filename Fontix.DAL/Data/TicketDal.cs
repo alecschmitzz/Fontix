@@ -1,4 +1,3 @@
-using AutoMapper;
 using Fontix.DAL.Entities;
 using Fontix.IDAL.Data;
 using Fontix.IDAL.DbAccess;

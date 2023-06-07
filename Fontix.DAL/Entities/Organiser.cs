@@ -7,28 +7,27 @@ public class Organisation
     public int id { get; private set; }
     public string name { get; private set; }
     public EventCollection Events { get; private set; }
+    public UserCollection Users { get; private set; }
 
     public Organisation()
     {
         Events = new EventCollection();
+        Users = new UserCollection();
     }
 
-    public Organisation(int id, string name, List<Event> events)
+    public Organisation(int id, string name, List<Event> events, List<User> users)
     {
         this.id = id;
         this.name = name;
         Events = new EventCollection(events);
+        Users = new UserCollection(users);
     }
 
     public Fontix.Models.Organisation ConvertToModel()
     {
-        List<Fontix.Models.Event> modelEvents = new List<Fontix.Models.Event>();
+        var modelEvents = Events.Get().Select(myEvent => myEvent.ConvertToModel()).ToList();
+        var modelUsers = Users.Get().Select(user => user.ConvertToModel()).ToList();
 
-        foreach (var myEvent in Events.Get())
-        {
-            modelEvents.Add(myEvent.ConvertToModel());
-        }
-
-        return new Models.Organisation(id, name, modelEvents);
+        return new Models.Organisation(id, name, modelEvents, modelUsers);
     }
 }

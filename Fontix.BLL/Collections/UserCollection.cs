@@ -1,7 +1,6 @@
 using Fontix.IBLL.Collections;
 using Fontix.IDAL.Data;
 using Fontix.Models;
-using BCrypt.Net;
 
 namespace Fontix.BLL.Collections;
 
@@ -40,7 +39,7 @@ public class UserCollection : IUserCollection
     public async Task InsertUser(User user)
     {
         var password = BCrypt.Net.BCrypt.HashPassword(user.UserPwd);
-        var myUser = new User(null, user.NameFirst, user.NameLast, password, user.Email);
+        var myUser = new User(0, user.NameFirst, user.NameLast, password, user.Email);
         await _data.InsertUser(myUser);
     }
 

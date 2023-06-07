@@ -9,19 +9,19 @@ namespace Fontix.UI.Controllers;
 public class UsersController : Controller
 {
     private readonly IUserCollection _userCollection;
+    private readonly ISessionAccess _sessionAccess;
 
 
-    public UsersController(IUserCollection userCollection)
+    public UsersController(IUserCollection userCollection, ISessionAccess sessionAccess)
     {
         _userCollection = userCollection;
+        _sessionAccess = sessionAccess;
     }
 
-    public async Task<IActionResult> Login(Boolean afterRegister = false)
+    public async Task<IActionResult> Login()
     {
-        if (afterRegister)
-        {
-            ViewBag.SuccessMessage = "You can now login";
-        }
+        ViewBag.SuccessMessage = TempData["SuccessMessage"]?.ToString() ?? string.Empty;
+        ViewBag.ErrorMessage = TempData["ErrorMessage"]?.ToString() ?? string.Empty;
 
         return View();
     }
@@ -39,10 +39,10 @@ public class UsersController : Controller
         if (user != null && user.Id != null)
         {
             // Save userId to session
-            HttpContext.Session.SetInt32("UserId", (int)user.Id);
+            _sessionAccess.SetUserId((int)user.Id);
 
             // Authentication successful
-            // Redirect to the home page or any other authenticated page
+            // Redirect to authenticated page
             return RedirectToAction("Index", "Home");
         }
 
@@ -75,6 +75,7 @@ public class UsersController : Controller
 
         await _userCollection.InsertUser(uiUser.ConvertToModel());
 
-        return RedirectToAction("Login", new { afterRegister = true });
+        TempData["SuccessMessage"] = "You can now login";
+        return RedirectToAction("Login");
     }
 }

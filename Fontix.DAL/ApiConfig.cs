@@ -15,7 +15,7 @@ public static class ApiConfig
         
         app.MapGet(pattern: "/Organisation", GetOrganisations);
         app.MapGet(pattern: "/Organisation/{id}", GetOrganisation);
-        app.MapGet(pattern: "/Organisation/{id}/ref", GetOrganisationWithReference);
+        // app.MapGet(pattern: "/Organisation/{id}/ref", GetOrganisationWithReference);
         app.MapPost(pattern: "/Organisation", InsertOrganisation);
         app.MapPut(pattern: "/Organisation", UpdateOrganisation);
         app.MapDelete(pattern: "/Organisation/{id}", DeleteOrganisation);
@@ -92,16 +92,16 @@ public static class ApiConfig
         return results;
     } 
     
-    private static async Task<IResult> GetOrganisationWithReference(IOrganisationDal data, int id)
-    {
-        var results = Results.Ok(await data.GetOrganisationWithReference(id));
-        return results;
-    }
+    // private static async Task<IResult> GetOrganisationWithReference(IOrganisationDal data, int id)
+    // {
+    //     var results = Results.Ok(await data.GetOrganisationWithReference(id));
+    //     return results;
+    // }
 
-    private static async Task<IResult> InsertOrganisation(IOrganisationDal data, Models.Organisation organisation)
+    private static async Task<IResult> InsertOrganisation(IOrganisationDal data, Models.Organisation organisation, int userId)
     {
         //map data
-        await data.InsertOrganisation(organisation);
+        await data.InsertOrganisation(organisation, userId);
         return Results.Ok();
     }
 

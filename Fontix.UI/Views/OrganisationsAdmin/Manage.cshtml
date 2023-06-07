@@ -1,10 +1,25 @@
 @model List<Organisation>
 @{
     ViewData["Title"] = "Managing Organisations";
+    var errorMessage = ViewBag.ErrorMessage;
+    var successMessage = ViewBag.SuccessMessage;
 }
 
 <h2 class="text-fontix-purple fw-bold text-center small">organisation</h2>
 <h1 class="text-fontix-blue fw-bold text-center">my organisations</h1>
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @errorMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @Html.Raw(errorMessage)
+    </div>
+}
 <div class="d-flex">
     <div class="align-self-center ms-auto justify-self-end">
 
@@ -74,6 +89,13 @@
                             <button type="submit" class="btn btn-outline-primary px-2 py-1 ms-2">
                                 <span class="d-none d-md-inline">Events&nbsp;</span>
                                 <i class="far fa-calendar-days"></i>
+                            </button>
+                        }
+                        @using (Html.BeginForm("People", "OrganisationsAdmin", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", item.Id)
+                            <button type="submit" class="btn btn-outline-primary px-2 py-1 ms-2">
+                                <i class="fas fa-users"></i>
                             </button>
                         }
 
