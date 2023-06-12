@@ -1,4 +1,4 @@
-@model Tuple<List<Event>, List<Organisation>, int>
+@model List<Event>
 
 
 
@@ -9,25 +9,9 @@
 <h2 class="text-fontix-purple fw-bold text-center small">events</h2>
 <h1 class="text-fontix-blue fw-bold text-center mb-5">Your ticket to unforgettable experiences.</h1>
 
-<div class="d-flex justify-content-center" style="padding-right: 13px;">
-    @using (Html.BeginForm("Manage", "EventsAdmin", null, FormMethod.Post))
-    {
-        <!-- OrganisationId input -->
-        <div class="select-wrapper my-auto">
-            <select class="select select-small" name="Id" onchange="this.form.submit()">
-                @foreach (var item in Model.Item2)
-                {
-                    <option value="@item.Id" selected="@(Model.Item3 == item.Id)">@item.Name</option>
-                }
-            </select>
-        </div>
-    }
-
-</div>
-
 <table class="table text-fontix-blue align-middle table-alternate-fontix-blue-light mt-5">
     <tbody>
-    @foreach (var item in Model.Item1)
+    @foreach (var item in Model)
     {
         <tr>
             <td class="text-center">
@@ -41,18 +25,79 @@
             </td>
             <td class="text-end">
                 <div class="d-flex align-items-center justify-content-end">
-                    @if (1 == 1)
-                    {
-                        <a type="button" class="btn btn-tertiary px-2 py-1 me-3" href="@Url.RouteUrl(new { action = "Details", controller = "EventsAdmin", id = item.Id })">
-                            <span class="d-none d-md-inline">Meer info&nbsp;</span>
-                        </a>
 
-                        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addModal">
-                            <span>
-                                <strong>Tickets</strong>
-                            </span>
-                        </button>
+                    <button type="button" class="btn btn-tertiary px-2 py-1 me-3" data-mdb-toggle="modal" data-mdb-target="#infoModal-@item.Id">
+                        <span class="d-none d-md-inline">Meer info&nbsp;</span>
+                    </button>
+
+                    <div class="modal fade" id="infoModal-@item.Id" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title text-fontix-blue fw-bold mb-0">@item.Name</h3>
+                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body text-start">
+                                    <b>Evenementdatum:</b><br/>
+                                    @item.DateTimeView.ToString("dddd, MMMM dd yyyy")<br/>
+                                    @item.DateTimeView.ToString("hh:mm")
+                                    <br/><br/>
+                                    <b>Omschrijving:</b><br/>
+                                    @item.Description
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#buyTicketsModal-@item.Id">
+                                        Tickets
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @using (Html.BeginForm("SaveSelectedTickets", "Order", FormMethod.Post))
+                    {
+                        <div class="modal fade" id="buyTicketsModal-@item.Id" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title text-fontix-blue fw-bold mb-0">@item.Name</h3>
+                                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body text-start">
+                                        @foreach (var ticket in item.Tickets.Get())
+                                        {
+                                            <div class="row">
+                                                <div class="col-12 col-md-7">
+                                                    <p>@ticket.Name</p>
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    <input name="bindingModelList[@ticket.Id].Id" type="hidden" value="@ticket.Id">
+                                                    <div class="input-group mb-3">
+                                                        <button type="button" class="ripple ripple-surface btn btn-outline-primary" role="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                                                        <input name="bindingModelList[@ticket.Id].Quantity" type="number" readonly min="0" max="@ticket.Amount" class="form-control hide-number-input" value="0">
+                                                        <button type="button" class="ripple ripple-surface btn btn-outline-primary" role="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Volgende</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
+
+                    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#buyTicketsModal-@item.Id">
+                        <span>
+                            <strong>Tickets</strong>
+                        </span>
+                    </button>
                 </div>
             </td>
         </tr>

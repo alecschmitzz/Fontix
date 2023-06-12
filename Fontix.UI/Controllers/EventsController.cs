@@ -23,39 +23,9 @@ public class EventsController : Controller
     //READ EVENTS
     public async Task<IActionResult> Index(int? id)
     {
-        if (id == null)
-        {
-            // GET THE FIRST ORGANISATION OF THE USER
-            //TODO: FIX HARDCODE
-            var userOrganisations = await _organisationCollection.GetUserOrganisations(1);
-            if (userOrganisations.Count > 0)
-            {
-                id = userOrganisations[0].Id;
-            }
-            // If the user has no organisations, set id to null
-            else
-            {
-                id = null;
-            }
-        }
-
-        List<Event> uiEvents = new List<Event>();
-
-        if (id != null)
-        {
-            var logicEvents = await _eventCollection.GetOrganisationEvents((int)id);
-            uiEvents = logicEvents.Select(logicEvent => new Event(logicEvent)).ToList();
-        }
-
-
-        //TODO: only select organisations connected to user
-        //TODO: FIX HARDCODE
-        var logicOrganisations = await _organisationCollection.GetUserOrganisations(1);
-        var uiOrganisations = logicOrganisations.Select(logicOrganisation => new Organisation(logicOrganisation))
-            .ToList();
-
-        var tupleModel = new Tuple<List<Event>, List<Organisation>, int>(uiEvents, uiOrganisations, (int)id);
-
-        return View(tupleModel);
+        var logicEvents = await _eventCollection.GetAllEventsWithTickets();
+        var uiEvents = logicEvents.Select(logicEvent => new Event(logicEvent)).ToList();
+        
+        return View(uiEvents);
     }
 }

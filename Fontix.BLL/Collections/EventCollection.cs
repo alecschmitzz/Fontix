@@ -34,6 +34,12 @@ public class EventCollection : IEventCollection
     {
         return await _data.GetEventWithTickets(id);
     }
+    
+    public async Task<List<Event>> GetAllEventsWithTickets()
+    {
+        var events = await _data.GetAllEventsWithTickets();
+        return events.ToList();
+    }
 
     public async Task InsertEvent(Event myEvent)
     {

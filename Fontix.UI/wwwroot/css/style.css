@@ -412,3 +412,8 @@ footer {
 }
 
 /* [END] AlecIT - NAV */
+
+
+input.hide-number-input[type=number] {
+    -moz-appearance: textfield;
+}

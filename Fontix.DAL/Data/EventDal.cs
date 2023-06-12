@@ -1,6 +1,7 @@
 using Fontix.DAL.Entities;
 using Fontix.IDAL.Data;
 using Fontix.IDAL.DbAccess;
+using System.Linq;
 
 namespace Fontix.DAL.Data;
 
@@ -22,7 +23,47 @@ public class EventDal : IEventDal
         //map data to Models.Event
         return events.Select(r => r.ConvertToModel());
     }
-    
+
+    public async Task<IEnumerable<Models.Event>> GetAllEventsWithTickets()
+    {
+        var lookup = new Dictionary<int, Event>();
+
+        var result = await _db.LoadDataWithJoin<Event, Ticket, Event, dynamic>(
+            "alecit_fontix.sp_Events_GetAllEventsWithTickets",
+            new { },
+            (myEvent, ticket) =>
+            {
+                // Check if the event already exists in the lookup
+                if (!lookup.TryGetValue(myEvent.id, out Event e))
+                {
+                    e = myEvent;
+                    lookup.Add(e.id, e);
+                }
+
+                // Check if ticket is null
+                if (ticket != null)
+                {
+                    // Set the tickets ID and name using the alias
+                    ticket.SetAlias();
+
+                    // Add the ticket to the event's list of tickets if it doesn't already exist
+                    if (e.Tickets.Get().All(r => r.id != ticket.id))
+                    {
+                        e.Tickets.Add(ticket);
+                    }
+                }
+
+                return e;
+            },
+            "id, alias_ticket_id",
+            new { }
+        );
+
+        var eventList = lookup.Values.ToList();
+        return eventList.Select(r => r.ConvertToModel()).ToList();
+    }
+
+
     public async Task<IEnumerable<Models.Event>> GetOrganisationEvents(int id)
     {
         var events = await _db.LoadData<Event, dynamic>(

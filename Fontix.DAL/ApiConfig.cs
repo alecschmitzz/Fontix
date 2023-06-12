@@ -9,10 +9,11 @@ public static class ApiConfig
         app.MapGet(pattern: "/Event", GetEvents);
         app.MapGet(pattern: "/Event/{id}", GetEvent);
         app.MapGet(pattern: "/Event/{id}/ref", GetEventWithTickets);
+        app.MapGet(pattern: "/Event/ref", GetAllEventsWithTickets);
         app.MapPost(pattern: "/Event", InsertEvent);
         app.MapPut(pattern: "/Event", UpdateEvent);
         app.MapDelete(pattern: "/Event/{id}", DeleteEvent);
-        
+
         app.MapGet(pattern: "/Organisation", GetOrganisations);
         app.MapGet(pattern: "/Organisation/{id}", GetOrganisation);
         // app.MapGet(pattern: "/Organisation/{id}/ref", GetOrganisationWithReference);
@@ -25,7 +26,7 @@ public static class ApiConfig
         app.MapPost(pattern: "/Ticket", InsertTicket);
         app.MapPut(pattern: "/Ticket", UpdateTicket);
         app.MapDelete(pattern: "/Ticket/{id}", DeleteTicket);
-        
+
         app.MapGet(pattern: "/Users", GetUsers);
         app.MapGet(pattern: "/Users/{id}", GetUser);
         app.MapGet(pattern: "/Users/search/email/{email}", GetUserByEmail);
@@ -33,16 +34,17 @@ public static class ApiConfig
         app.MapPut(pattern: "/Users", UpdateUser);
         app.MapDelete(pattern: "/Users/{id}", DeleteUser);
     }
-    
-    
-    
-    
-    
-    
+
+
     /* EVENTS */
     private static async Task<IResult> GetEvents(IEventDal data)
     {
         return Results.Ok(await data.GetEvents());
+    }
+
+    private static async Task<IResult> GetAllEventsWithTickets(IEventDal data)
+    {
+        return Results.Ok(await data.GetAllEventsWithTickets());
     }
 
     private static async Task<IResult> GetEvent(IEventDal data, int id)
@@ -50,7 +52,7 @@ public static class ApiConfig
         var results = Results.Ok(await data.GetEvent(id));
         return results;
     }
-    
+
     private static async Task<IResult> GetEventWithTickets(IEventDal data, int id)
     {
         var results = Results.Ok(await data.GetEventWithTickets(id));
@@ -74,12 +76,8 @@ public static class ApiConfig
         await data.DeleteEvent(id);
         return Results.Ok();
     }
-    
-    
-    
-    
-    
-    
+
+
     /* ORGANISATIONS */
     private static async Task<IResult> GetOrganisations(IOrganisationDal data)
     {
@@ -90,15 +88,16 @@ public static class ApiConfig
     {
         var results = Results.Ok(await data.GetOrganisation(id));
         return results;
-    } 
-    
+    }
+
     // private static async Task<IResult> GetOrganisationWithReference(IOrganisationDal data, int id)
     // {
     //     var results = Results.Ok(await data.GetOrganisationWithReference(id));
     //     return results;
     // }
 
-    private static async Task<IResult> InsertOrganisation(IOrganisationDal data, Models.Organisation organisation, int userId)
+    private static async Task<IResult> InsertOrganisation(IOrganisationDal data, Models.Organisation organisation,
+        int userId)
     {
         //map data
         await data.InsertOrganisation(organisation, userId);
@@ -117,12 +116,8 @@ public static class ApiConfig
         await data.DeleteOrganisation(id);
         return Results.Ok();
     }
-    
-    
-    
-    
-    
-    
+
+
     /* TICKETS */
     private static async Task<IResult> GetTickets(ITicketDal data)
     {
@@ -154,12 +149,8 @@ public static class ApiConfig
         await data.DeleteTicket(id);
         return Results.Ok();
     }
-    
-    
-    
-    
-    
-    
+
+
     /* USERS */
     private static async Task<IResult> GetUsers(IUserDal data)
     {

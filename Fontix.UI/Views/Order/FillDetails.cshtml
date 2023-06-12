@@ -1,0 +1,8 @@
+@model List<SelectedTicket>
+
+<h2>Confirmation Page</h2>
+
+@foreach (var ticket in Model)
+{
+    <p>Ticket: @ticket.Id, Quantity: @ticket.Quantity</p>
+}
